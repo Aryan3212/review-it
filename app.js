@@ -5,6 +5,7 @@ const app = express();
 // app.set("view engine", nunjucks);
 //app.set("views", path.join(__dirname, "views"));
 db.init();
+app.use(express.json());
 app.use(routes);
 
 const server = app.listen(3000, () => {
