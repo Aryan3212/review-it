@@ -1,14 +1,20 @@
 const { CampgroundModel } = require("../models/campgroundModel");
 
 const listCampgrounds = async (req, res) => {
-    const camps = await CampgroundModel.find({});
-    res.status(200).send(camps);
+    const campgrounds = await CampgroundModel.find({});
+    res.status(200).render("campgrounds/list.pug", {
+        title: "Campgrounds",
+        campgrounds,
+    });
 };
 
 const showCampground = async (req, res) => {
     const { id } = req.params;
-    const camp = await CampgroundModel.findById(id);
-    res.send(camp);
+    const campground = await CampgroundModel.findById(id);
+    res.status(200).render("campgrounds/show.pug", {
+        title: campground.title,
+        campground,
+    });
 };
 
 const createCampground = async (req, res) => {
@@ -34,7 +40,7 @@ const deleteCampground = async (req, res) => {
     const { id } = req.params;
     const deletingCamp = await CampgroundModel.deleteOne({ _id: id });
     // Redirect to somewhere useful
-    res.status(204).redirect(`/campgrounds/`);
+    res.redirect(`/campgrounds`);
 };
 const updateCampground = async (req, res) => {
     const { id } = req.params;

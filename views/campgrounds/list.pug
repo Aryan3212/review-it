@@ -1,0 +1,12 @@
+html
+  head
+    title= title
+    script(src="/public/scripts/index.js") 
+  body
+    h1= message
+    each camp in campgrounds
+      div
+        a(href='/campgrounds/'+camp.id)
+          h1=camp.title 
+        p=camp.description
+        button(value='/campgrounds/'+camp.id, onclick="del(this)") Delete

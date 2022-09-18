@@ -1,0 +1,11 @@
+html
+  head
+    title=title
+    script(src="/public/scripts/index.js") 
+  body
+    div
+      a(href=campground.id)
+        h1=campground.title 
+      p=campground.description
+      button(value='/campgrounds/'+campground.id, onclick="del(this)") Delete
+    a(href='/campgrounds') All campgrounds
