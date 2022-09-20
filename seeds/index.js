@@ -2,7 +2,7 @@ const { CampgroundModel } = require("../models/campgroundModel");
 const { db } = require("../db");
 
 async function seed() {
-    const camps = require("./cities");
+    const camps = require("./cities").slice(0, 15);
     const { places, descriptors } = require("./titleDescriptors");
     const documents = [];
 
