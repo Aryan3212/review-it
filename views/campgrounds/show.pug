@@ -7,5 +7,6 @@ html
       a(href=campground.id)
         h1=campground.title 
       p=campground.description
-      button(value='/campgrounds/'+campground.id, onclick="del(this)") Delete
+      form(action="/campgrounds/"+campground.id+"?_method=DELETE", method="POST")
+        button(type="submit") Delete
     a(href='/campgrounds') All campgrounds
