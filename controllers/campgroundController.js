@@ -18,30 +18,30 @@ const showCampground = async (req, res) => {
 };
 
 const createCampground = async (req, res) => {
-    const { title, price, description, location } = req.body;
+    const { title, price, description, longitude, latitude, name } = req.body;
     const newCamp = new CampgroundModel({
         title: title,
         price: price,
         description: description,
         location: {
             geometry: {
-                coordinates: location.geometry.coordinates,
+                coordinates: [longitude, latitude],
             },
             properties: {
-                name: location.properties.name || "",
+                name: name || "",
             },
         },
     });
     await newCamp.save();
-    res.status(203).redirect(`/campgrounds/${newCamp.id}`);
+    res.redirect(`/campgrounds/${newCamp.id}`);
 };
 
 const deleteCampground = async (req, res) => {
     const { id } = req.params;
     const deletingCamp = await CampgroundModel.deleteOne({ _id: id });
-    // Redirect to somewhere useful
     res.redirect(`/campgrounds`);
 };
+
 const updateCampground = async (req, res) => {
     const { id } = req.params;
     const toBeUpdatedCamp = await CampgroundModel.findById(id);
