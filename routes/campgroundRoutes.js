@@ -13,7 +13,7 @@ const router = new Router();
 router
     .route("/:id")
     .get(catchAsync(showCampground))
-    .put(catchAsync(updateCampground))
+    .patch(catchAsync(updateCampground))
     .delete(catchAsync(deleteCampground));
 
 router
