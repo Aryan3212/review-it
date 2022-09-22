@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node app.js",
         "dev": "nodemon app.js",
-        "seed": "node seeds/index.js"
+        "seed": "node seeds/index.js",
+        "lint": "eslint . --ext .js --fix"
     },
     "keywords": [],
     "author": "",
@@ -19,5 +20,10 @@
         "mongoose": "^6.6.0",
         "morgan": "^1.10.0",
         "pug": "^3.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^8.23.1",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.26.0"
     }
 }
