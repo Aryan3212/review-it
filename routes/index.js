@@ -1,7 +1,17 @@
-const { Router } = require("express");
-const campgroundRoutes = require("./campgroundRoutes.js");
-const router = new Router();
+const { Router } = require('express');
+const campgroundRoutes = require('./campgroundRoutes');
+const reviewRoutes = require('./reviewRoutes');
+const userRoutes = require('./userRoutes');
 
-router.use("/campgrounds", campgroundRoutes);
+const router = new Router({ mergeParams: true });
 
+router.all('/', (req, res) => {
+  res.redirect('/campgrounds');
+});
+router.use('/campgrounds', campgroundRoutes);
+router.use('/campgrounds/:id/reviews', reviewRoutes);
+router.use('/users', userRoutes);
+router.all('*', (req, res) => {
+  res.render('lost');
+});
 module.exports = router;
