@@ -1,24 +1,23 @@
 function del(e) {
-    //! This function is attached to onclick on a button
-    fetch(e.value, { method: "DELETE" })
-        .then((res) => {
-            //! Makes a redirect DELETE request where
-            //! a GET is expected
-            console.info(res);
-        })
-        .catch((e) => console.info(e));
+  //! This function is attached to onclick on a button
+  fetch(e.value, { method: 'DELETE' })
+    .then((res) => {
+      //! Makes a redirect DELETE request where
+      //! a GET is expected
+      console.info(res);
+    })
+    .catch((e) => console.info(e));
 }
 
 function patch(e) {
-    fetch(e.target.value, { method: "PATCH" });
+  fetch(e.target.value, { method: 'PATCH' });
 }
 function post(e) {
-    e.preventDefault();
-    console.dir(e);
-    return;
+  e.preventDefault();
+  console.dir(e);
 }
 function get(e) {
-    fetch(e.target.value, { method: "DELETE" });
+  fetch(e.target.value, { method: 'DELETE' });
 }
 
 //! This does an AJAX POST request
