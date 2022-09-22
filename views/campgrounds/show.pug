@@ -3,10 +3,16 @@ html
     title=title
     script(src="/public/scripts/index.js") 
   body
-    div
+    .campground
       a(href=campground.id)
         h1=campground.title 
       p=campground.description
       form(action="/campgrounds/"+campground.id+"?_method=DELETE", method="POST")
         button(type="submit") Delete
+    .reviews 
+      each review in reviews
+        h1=review.author.email 
+        p=review.rating 
+        p=review.details
+        
     a(href='/campgrounds') All campgrounds
