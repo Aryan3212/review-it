@@ -9,7 +9,7 @@ router.all('/', (req, res) => {
   res.redirect('/campgrounds');
 });
 router.use('/campgrounds', campgroundRoutes);
-router.use('/campgrounds/:id/reviews', reviewRoutes);
+router.use('/campgrounds/:campground_id/reviews', reviewRoutes);
 router.use('/users', userRoutes);
 router.all('*', (req, res) => {
   res.render('lost');
