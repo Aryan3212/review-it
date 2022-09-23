@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 async function init() {
-  mongoose.connect('mongodb://127.0.0.1:27017/camp', {
+  mongoose.connect(process.env.DB_URL || 'mongodb://127.0.0.1:27017/camp', {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   });
 
   const db = mongoose.connection;
