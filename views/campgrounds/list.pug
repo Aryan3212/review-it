@@ -3,6 +3,17 @@ html
     title= title
     script(src="/public/scripts/index.js") 
   body
+    form(action="/users/login", method="post") 
+      input(type="text", name="username", placeholder="username")
+      input(type="text", name="password", placeholder="password")
+      button(type="submit") login
+    form(action="/users/register", method="post") 
+      input(type="email", name="email", placeholder="email")
+      input(type="text", name="username", placeholder="username")
+      input(type="text", name="password", placeholder="password")
+      button(type="submit") register
+    form(action="/users/logout", method="post") 
+      button(type="submit") logout
     form(action="/campgrounds", method="post") 
       input(type="text", name="title", placeholder="Title")
       input(type="number", name="price",placeholder="price")
