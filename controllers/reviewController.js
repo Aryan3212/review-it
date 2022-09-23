@@ -1,13 +1,16 @@
 const { ReviewModel } = require('../models/ReviewModel');
-const { UserModel } = require('../models/UserModel');
+
 const createReview = async (req, res) => {
-  const { details, rating, author, campground } = req.body;
+  const { details, rating } = req.body;
+  const { campground_id: campground } = req.params;
+  const author = req.user.id;
   const newReview = new ReviewModel({
     details,
     rating,
     author,
     campground
   });
+
   await newReview.save();
   res.redirect(`/campgrounds/${campground}`);
 };

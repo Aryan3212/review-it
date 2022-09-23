@@ -11,7 +11,10 @@ const listCampgrounds = async (req, res) => {
 
 const showCampground = async (req, res) => {
   const { id } = req.params;
-  const campground = await CampgroundModel.findById(id);
+  console.log(req.isAuthenticated());
+  console.log(req.user);
+
+  const campground = await CampgroundModel.findById(id).populate('author');
   const reviews = await ReviewModel.find({
     campground: campground.id
   }).populate('author');
