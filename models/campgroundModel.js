@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-
 // Validator functions
 
 const coordinatesArrayValidator = (a) => a.length == 2;
@@ -15,6 +14,19 @@ const ImageSchema = new Schema({
 ImageSchema.virtual('thumbnail').get(function () {
   return this.url.replace('/upload', '/upload/w_200');
 });
+
+const opts = {
+  toJSON: { virtuals: true },
+  toObject: {
+    virtuals: true,
+    transform: (doc, ret, opts) => {
+      ret.id = ret._id.toString();
+      delete ret._id;
+      delete ret.__v;
+      return ret;
+    }
+  }
+};
 
 const LocationSchema = new Schema(
   {
@@ -35,20 +47,24 @@ const LocationSchema = new Schema(
   { _id: false }
 );
 
-const CampgroundSchema = new Schema({
-  title: String,
-  price: {
-    type: Number,
-    min: 0
+const CampgroundSchema = new Schema(
+  {
+    title: String,
+    price: {
+      type: Number,
+      min: 0
+    },
+    description: String,
+    location: LocationSchema,
+    images: [ImageSchema],
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      index: true
+    }
   },
-  description: String,
-  location: LocationSchema,
-  images: [ImageSchema],
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    index: true
-  }
-});
+  opts
+);
 
-module.exports.CampgroundModel = mongoose.model('Campground', CampgroundSchema);
+module.exports.CampgroundModel =
+  mongoose.model.Campground || mongoose.model('Campground', CampgroundSchema);
