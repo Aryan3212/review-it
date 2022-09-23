@@ -3,16 +3,37 @@ html
     title=title
     script(src="/public/scripts/index.js") 
   body
+    a(href='/campgrounds') All campgrounds
     .campground
-      a(href=campground.id)
-        h1=campground.title 
+      h1=campground.title 
       p=campground.description
+      form(class="hide", action="/campgrounds/"+campground.id+"?_method=PATCH", method="POST")
+        input(type="text", name="title", value=campground.title)
+        input(type="text", name="description",value=campground.description)
+        input(type="number", name="price",value=campground.price)
+        input(type="text", name="location[properties][name]",value=campground.location.properties.name)
+        input(type="number", name="location[geometry][coordinates][]",value=campground.location.geometry.coordinates[0])
+        input(type="number",name="location[geometry][coordinates][]",value=campground.location.geometry.coordinates[1])
+        button(type="submit") Edit
+      
       form(action="/campgrounds/"+campground.id+"?_method=DELETE", method="POST")
         button(type="submit") Delete
     .reviews 
+      form(class="hide", action="/campgrounds/"+campground.id+"/reviews", method="POST")
+        input(type="textarea", name="details", value=campground.details)
+        input(type="range", min=1, max=5, name="rating",value=campground.rating)
+        button(type="submit") Submit Review
       each review in reviews
-        h1=review.author.email 
-        p=review.rating 
-        p=review.details
+        .review
+          h3=review.author.email 
+          p=review.rating 
+          p=review.details
+          if review.author.id === campground.author.id
+            form(class="hide", action="/campgrounds/"+campground.id+"/reviews/"+review.id+"?_method=DELETE", method="POST")
+              button(type="submit") Delete Review
+            form(class="hide", action="/campgrounds/"+campground.id+"/reviews/"+review.id+"?_method=PATCH", method="POST")
+              input(type="textarea", name="details", value=campground.details)
+              input(type="range", min=1, max=5, name="rating",value=campground.rating)
+              button(type="submit") Edit Review
         
-    a(href='/campgrounds') All campgrounds
+    
