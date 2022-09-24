@@ -12,8 +12,8 @@ const isCampgroundAuthor = async (req, res, next) => {
 
 const isReviewAuthor = async (req, res, next) => {
   const { campground_id: id, id: reviewId } = req.params;
-  const review = await Review.findById(reviewId);
-  if (!review.author.equals(req.user._id)) {
+  const review = await ReviewModel.findById(reviewId);
+  if (!review.author.equals(req.user.id)) {
     return res.redirect(`/campgrounds/${id}`);
   }
   next();
