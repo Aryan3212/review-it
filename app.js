@@ -11,8 +11,7 @@ const routes = require('./routes');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const { UserModel } = require('./models/userModel');
+
 const app = express();
 app.disable('x-powered-by');
 app.set('view engine', 'pug');
@@ -43,10 +42,6 @@ if (process.env.NODE_ENV === 'production') {
 app.use(session(sessionOpts));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(UserModel.authenticate()));
-
-passport.serializeUser(UserModel.serializeUser());
-passport.deserializeUser(UserModel.deserializeUser());
 
 db.init();
 
