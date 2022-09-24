@@ -10,35 +10,30 @@ const createReview = async (req, res) => {
     author,
     campground
   });
-
+  console.log('ars', campground);
   await newReview.save();
   res.redirect(`/campgrounds/${campground}`);
 };
 
 const deleteReview = async (req, res) => {
   const { id } = req.params;
-  const deletingCamp = await ReviewModel.deleteOne({ _id: id });
-  res.redirect(`/campgrounds/${deletingCamp.id}`);
+  const deletingCamp = await ReviewModel.findByIdAndRemove(id);
+  console.log(deletingCamp);
+  res.redirect(`/campgrounds/${deletingCamp.campground}`);
 };
 
 const updateReview = async (req, res) => {
   const { id } = req.params;
-  const toBeUpdatedCamp = await ReviewModel.findById(id);
+  const toBeUpdatedReview = await ReviewModel.findById(id);
   // return if camp doesnt exist
-  const { title, price, description, location } = req.body;
+  const { details, rating } = req.body;
 
-  toBeUpdatedCamp.title = title || toBeUpdatedCamp.title;
-  toBeUpdatedCamp.price = price || toBeUpdatedCamp.price;
-  toBeUpdatedCamp.description = description || toBeUpdatedCamp.description;
-  if (location) {
-    toBeUpdatedCamp.location.geometry.coordinates =
-      location.coordinates || toBeUpdatedCamp.location.geometry.coordinates;
-    toBeUpdatedCamp.location.properties.name =
-      location.name || toBeUpdatedCamp.location.properties.name;
-  }
-  await toBeUpdatedCamp.save();
+  toBeUpdatedReview.details = details || toBeUpdatedCamp.details;
+  toBeUpdatedReview.rating = rating || toBeUpdatedCamp.rating;
+
+  await toBeUpdatedReview.save();
   // Redirect to somewhere useful
-  res.redirect(`/campgrounds/${toBeUpdatedCamp.id}`);
+  res.redirect(`/campgrounds/${toBeUpdatedReview.campground}`);
 };
 module.exports = {
   createReview,

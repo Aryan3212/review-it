@@ -2,17 +2,29 @@ const { Router } = require('express');
 const {
   createReview,
   updateReview,
-  deleteReview,
+  deleteReview
 } = require('../controllers/reviewController');
+const {
+  isReviewAuthor,
+  isAuthenticated
+} = require('../middleware/authMiddleware');
 const { catchAsync } = require('../utils');
 
-const router = new Router();
+const router = new Router({ mergeParams: true });
 
 router
   .route('/:id')
-  .patch(catchAsync(updateReview))
-  .delete(catchAsync(deleteReview));
+  .patch(
+    catchAsync(isAuthenticated),
+    catchAsync(isReviewAuthor),
+    catchAsync(updateReview)
+  )
+  .delete(
+    catchAsync(isAuthenticated),
+    catchAsync(isReviewAuthor),
+    catchAsync(deleteReview)
+  );
 
-router.route('/').post(catchAsync(createReview));
+router.route('/').post(catchAsync(isAuthenticated), catchAsync(createReview));
 
 module.exports = router;
