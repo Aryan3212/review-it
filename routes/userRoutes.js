@@ -8,7 +8,14 @@ const {
 } = require('../controllers/userController');
 const { catchAsync } = require('../utils');
 const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const { UserModel } = require('../models/userModel');
 const router = new Router();
+
+passport.use(new LocalStrategy(UserModel.authenticate()));
+
+passport.serializeUser(UserModel.serializeUser());
+passport.deserializeUser(UserModel.deserializeUser());
 
 router.route('/').patch(catchAsync(updateUser)).delete(catchAsync(deleteUser));
 
