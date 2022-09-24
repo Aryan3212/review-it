@@ -3,9 +3,11 @@ const { ReviewModel } = require('../models/ReviewModel');
 
 const listCampgrounds = async (req, res) => {
   const campgrounds = await CampgroundModel.find({});
+  const user = req.user;
   res.status(200).render('campgrounds/list', {
     title: 'Campgrounds',
-    campgrounds
+    campgrounds,
+    currentUser: user
   });
 };
 
