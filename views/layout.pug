@@ -32,18 +32,36 @@ html
               .field
                 p.control
                   button.button.is-success.
-                    
                     Login
         button.modal-close.is-large(aria-label='close')
       #modal-js-register.modal
         .modal-background
         .modal-content
           .box
-            form(action="/users/register", method="post") 
-              input(type="email", name="email", placeholder="Email")
-              input(type="text", name="username", placeholder="Username")
-              input(type="text", name="password", placeholder="Password")
-              button(type="submit") Register
+            form(action="/users/register", method="post")
+              .field
+                p.control.has-icons-left.has-icons-right
+                  input.input(type='text' placeholder='Email' name='email')
+                  span.icon.is-small.is-left
+                    i.fas.fa-envelope
+                  span.icon.is-small.is-right
+                    i.fas.fa-check
+              .field
+                p.control.has-icons-left.has-icons-right
+                  input.input(type='text' placeholder='Username' name='username')
+                  span.icon.is-small.is-left
+                    i.fas.fa-user
+                  span.icon.is-small.is-right
+                    i.fas.fa-check
+              .field
+                p.control.has-icons-left
+                  input.input(type='password' placeholder='Password' name='password')
+                  span.icon.is-small.is-left
+                    i.fas.fa-lock
+              .field
+                p.control
+                  button.button.is-success.
+                    Register
         button.modal-close.is-large(aria-label='close')
     else
       form(action="/campgrounds", method="post", enctype="multipart/form-data") 
