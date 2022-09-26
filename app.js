@@ -50,7 +50,7 @@ app.use(routes);
 //* Error Routes
 app.use((err, req, res, next) => {
   console.log('Caught!!', err);
-  res.render('error', { err });
+  res.render('error', { err, currentUser: req.user });
   next();
 });
 
