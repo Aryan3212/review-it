@@ -1,33 +1,16 @@
-extends ../layout.pug
+extends ../layout
 
 block scripts
   script(src="/public/scripts/index.js") 
   
 block content
-  if !currentUser
-    form(action="/users/login", method="post") 
-      input(type="text", name="username", placeholder="username")
-      input(type="text", name="password", placeholder="password")
-      button(type="submit") login
-    form(action="/users/register", method="post") 
-      input(type="email", name="email", placeholder="email")
-      input(type="text", name="username", placeholder="username")
-      input(type="text", name="password", placeholder="password")
-      button(type="submit") register
-  else
-    p #{currentUser.username} 
-    form(action="/users/logout", method="post") 
-      button(type="submit") logout
-    form(action="/campgrounds", method="post") 
-      input(type="text", name="title", placeholder="Title")
-      input(type="number", name="price",placeholder="price")
-      input(type="text", name="description",placeholder="desc")
-      input(type="text", name="name",placeholder="location name")
-      input(type="number", name="longitude",placeholder="")
-      input(type="number", name="latitude",placeholder="")
-      button(type="submit") submit
   each camp in campgrounds
-    div
+    div(class="card")
       a(href='/campgrounds/'+camp.id)
-        h1=camp.title 
-      p=camp.description
+        div(class="card-image") 
+          figure(class="image is-4by3")
+            img(src=`${camp.images && camp.images[0] ? camp.images[0].url: 'https://res.cloudinary.com/dwz8ueclf/image/upload/v1664168545/kk1t6wh2dutx4vnuqsje.png'}`, alt=camp.title+"image")
+        div(class="card-content") 
+          h1=camp.title 
+      div(class="content")   
+        p=camp.description

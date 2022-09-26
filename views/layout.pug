@@ -1,9 +1,57 @@
+include navbar
+
 html
   head
     title #{title}
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css')
+    script(src='https://kit.fontawesome.com/b5edcae973.js' crossorigin='anonymous')
     block scripts
-  body
+  body(class="container")
+    +navbar(currentUser)
     block content
-    block foot
-      #footer
-        p some footer content
+    if !currentUser
+      #modal-js-login.modal
+        .modal-background
+        .modal-content
+          .box
+            form(action="/users/login", method="post")
+              .field
+                p.control.has-icons-left.has-icons-right
+                  input.input(type='text' placeholder='Username' name='username')
+                  span.icon.is-small.is-left
+                    i.fas.fa-user
+                  span.icon.is-small.is-right
+                    i.fas.fa-check
+              .field
+                p.control.has-icons-left
+                  input.input(type='password' placeholder='Password' name='password')
+                  span.icon.is-small.is-left
+                    i.fas.fa-lock
+              .field
+                p.control
+                  button.button.is-success.
+                    
+                    Login
+        button.modal-close.is-large(aria-label='close')
+      #modal-js-register.modal
+        .modal-background
+        .modal-content
+          .box
+            form(action="/users/register", method="post") 
+              input(type="email", name="email", placeholder="Email")
+              input(type="text", name="username", placeholder="Username")
+              input(type="text", name="password", placeholder="Password")
+              button(type="submit") Register
+        button.modal-close.is-large(aria-label='close')
+    else
+      form(action="/campgrounds", method="post", enctype="multipart/form-data") 
+        input(type="text", name="title", placeholder="Title")
+        input(type="number", name="price",placeholder="Price")
+        input(type="text", name="description",placeholder="Description")
+        input(type="text", name="name",placeholder="Location Name")
+        input(type="number", name="longitude",placeholder="")
+        input(type="number", name="latitude",placeholder="")
+        input(type="file", name="images", multiple)
+        button(type="submit") Create New Post

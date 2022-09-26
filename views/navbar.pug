@@ -1,0 +1,52 @@
+mixin navbar(currentUser) 
+  nav.navbar(role='navigation' aria-label='main navigation')
+    .navbar-brand
+      a.navbar-item(href='/campgrounds')
+        img(src='/public/kri.png' height='112' )
+      a.navbar-burger(role='button' aria-label='menu' aria-expanded='false' data-target='headerNavbar')
+        span(aria-hidden='true')
+        span(aria-hidden='true')
+        span(aria-hidden='true')
+    #headerNavbar.navbar-menu
+      .navbar-start
+        a.navbar-item
+          Home
+        //- a.navbar-item.
+          
+        //-   Documentation
+          
+        //- .navbar-item.has-dropdown.is-hoverable
+        //-   a.navbar-link.
+            
+        //-     More
+            
+        //-   .navbar-dropdown
+        //-     a.navbar-item.
+              
+        //-       About
+              
+        //-     a.navbar-item.
+              
+        //-       Jobs
+              
+        //-     a.navbar-item.
+              
+        //-       Contact
+              
+        //-     hr.navbar-divider
+        //-     a.navbar-item.
+              
+        //-       Report an issue
+              
+      .navbar-end
+        .navbar-item
+          .buttons
+            if currentUser
+              p.box #{currentUser.username} 
+              form(action="/users/logout", method="post") 
+                button.button.is-danger(type="submit") Logout
+            else
+              a.button.is-primary.js-modal-trigger(data-target='modal-js-register')
+                strong Sign up
+              a.button.is-light.js-modal-trigger(data-target='modal-js-login') Login
+              

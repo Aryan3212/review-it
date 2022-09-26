@@ -1,41 +1,44 @@
-html
-  head
-    title=title
-    script(src="/public/scripts/index.js") 
-  body
-    a(href='/campgrounds') All campgrounds
-    .campground
-      h1=campground.title 
-      p=campground.description
-      if currentUser && currentUser.id == campground.author
-        form(class="hide", action="/campgrounds/"+campground.id+"?_method=PATCH", method="POST")
-          input(type="text", name="title", value=campground.title)
-          input(type="text", name="description",value=campground.description)
-          input(type="number", name="price",value=campground.price)
-          input(type="text", name="location[properties][name]",value=campground.location.properties.name)
-          input(type="number", name="location[geometry][coordinates][]",value=campground.location.geometry.coordinates[0])
-          input(type="number",name="location[geometry][coordinates][]",value=campground.location.geometry.coordinates[1])
-          button(type="submit") Edit
-        
-        form(action="/campgrounds/"+campground.id+"?_method=DELETE", method="POST")
-          button(type="submit") Delete
-    .reviews 
-      if currentUser
-        form(class="hide", action="/campgrounds/"+campground.id+"/reviews", method="POST")
-          input(type="textarea", name="details", value=campground.details)
-          input(type="range", min=1, max=5, name="rating",value=campground.rating)
-          button(type="submit") Submit Review
-      each review in reviews
-        .review
-          h3=review.author.email 
-          p=review.rating 
-          p=review.details
-          if currentUser && review.author.id === currentUser.id
-            form(class="hide", action="/campgrounds/"+campground.id+"/reviews/"+review.id+"?_method=DELETE", method="POST")
-              button(type="submit") Delete Review
-            form(class="hide", action="/campgrounds/"+campground.id+"/reviews/"+review.id+"?_method=PATCH", method="POST")
-              input(type="textarea", name="details", value=review.details)
-              input(type="range", min=1, max=5, name="rating",step=1, value=review.rating)     
-              button(type="submit") Edit
+extends ../layout
+
+block scripts
+  script(src="/public/scripts/index.js") 
+
+block content
+  a(href='/campgrounds') All campgrounds
+  .campground
+    each image in campground.images
+      img(src=image.url || 'https://res.cloudinary.com/dwz8ueclf/image/upload/v1664168545/kk1t6wh2dutx4vnuqsje.png', alt=campground.title+"image")
+    h1=campground.title 
+    p=campground.description
+    if currentUser && currentUser.id == campground.author
+      form(class="hide", action="/campgrounds/"+campground.id+"?_method=PATCH", method="POST")
+        input(type="text", name="title", value=campground.title)
+        input(type="text", name="description",value=campground.description)
+        input(type="number", name="price",value=campground.price)
+        input(type="text", name="location[properties][name]",value=campground.location.properties.name)
+        input(type="number", name="location[geometry][coordinates][]",value=campground.location.geometry.coordinates[0])
+        input(type="number",name="location[geometry][coordinates][]",value=campground.location.geometry.coordinates[1])
+        button(type="submit") Edit
+      
+      form(action="/campgrounds/"+campground.id+"?_method=DELETE", method="POST")
+        button(type="submit") Delete
+  .reviews 
+    if currentUser
+      form(class="hide", action="/campgrounds/"+campground.id+"/reviews", method="POST")
+        input(type="textarea", name="details", value=campground.details)
+        input(type="range", min=1, max=5, name="rating",value=campground.rating)
+        button(type="submit") Submit Review
+    each review in reviews
+      .review
+        h3=review.author.email 
+        p=review.rating 
+        p=review.details
+        if currentUser && review.author.id === currentUser.id
+          form(class="hide", action="/campgrounds/"+campground.id+"/reviews/"+review.id+"?_method=DELETE", method="POST")
+            button(type="submit") Delete Review
+          form(class="hide", action="/campgrounds/"+campground.id+"/reviews/"+review.id+"?_method=PATCH", method="POST")
+            input(type="textarea", name="details", value=review.details)
+            input(type="range", min=1, max=5, name="rating",step=1, value=review.rating)     
+            button(type="submit") Edit
         
     
