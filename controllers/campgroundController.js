@@ -4,10 +4,13 @@ const { ReviewModel } = require('../models/ReviewModel');
 const listCampgrounds = async (req, res) => {
   const campgrounds = await CampgroundModel.find({});
   const user = req.user;
+  const geoData = campgrounds.map((c) => c.location);
   res.status(200).render('campgrounds/list', {
     title: 'Campgrounds',
     campgrounds,
-    currentUser: user
+    currentUser: user,
+    geoData,
+    mapTilerApiKey: process.env.MAPTILER_API_KEY
   });
 };
 
@@ -15,6 +18,7 @@ const showCampground = async (req, res) => {
   const { id } = req.params;
   const user = req.user;
   const campground = await CampgroundModel.findById(id).populate('author');
+  const geoData = [campground.location];
   const reviews = await ReviewModel.find({
     campground: campground.id
   }).populate('author');
@@ -22,7 +26,9 @@ const showCampground = async (req, res) => {
     title: campground.title,
     campground,
     reviews,
-    currentUser: user
+    currentUser: user,
+    geoData,
+    mapTilerApiKey: process.env.MAPTILER_API_KEY
   });
 };
 

@@ -1,7 +1,6 @@
 var map = new maplibregl.Map({
   container: 'map',
-  style:
-    'https://api.maptiler.com/maps/streets/style.json?key=Iu6JIXastpq9itZ2sOvW',
+  style: `https://api.maptiler.com/maps/streets/style.json?key=${mapTilerApiKey}`,
   center: [-103.59179687498357, 40.66995747013945],
   zoom: 3
 });

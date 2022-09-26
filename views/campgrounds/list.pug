@@ -2,8 +2,13 @@ extends ../layout
 
 block scripts
   script(src="/public/scripts/index.js") 
+  script.
+    const data ={ features: !{JSON.stringify(geoData).replace(/<\//g, "<\\/")}} 
+    const mapTilerApiKey = '#{mapTilerApiKey}';
+  script(src="/public/scripts/mapLibreGL.js" defer)
   
 block content
+  <div id='map' style='width: 400px; height: 300px;'></div>
   each camp in campgrounds
     div(class="card")
       a(href='/campgrounds/'+camp.id)
