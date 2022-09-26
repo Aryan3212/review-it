@@ -10,7 +10,6 @@ const createReview = async (req, res) => {
     author,
     campground
   });
-  console.log('ars', campground);
   await newReview.save();
   res.redirect(`/campgrounds/${campground}`);
 };

@@ -2,10 +2,14 @@ extends ../layout
 
 block scripts
   script(src="/public/scripts/index.js") 
-
+  script.
+    const data ={ features: !{JSON.stringify(geoData).replace(/<\//g, "<\\/")}} 
+    const mapTilerApiKey = '#{mapTilerApiKey}';
+  script(src="/public/scripts/mapLibreGL.js" defer)
 block content
   a(href='/campgrounds') All campgrounds
   .campground
+    <div id='map' style='width: 400px; height: 300px;'></div>
     each image in campground.images
       img(src=image.url || 'https://res.cloudinary.com/dwz8ueclf/image/upload/v1664168545/kk1t6wh2dutx4vnuqsje.png', alt=campground.title+"image")
     h1=campground.title 
