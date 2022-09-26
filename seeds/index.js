@@ -37,7 +37,13 @@ async function seed() {
           name: `${c.state}, ${c.city}`
         }
       },
-      author: toggle ? user.id : user2.id
+      author: toggle ? user.id : user2.id,
+      images: [
+        {
+          url: process.env.SEED_IMG,
+          filename: 'arstairnsevdmfwplu'
+        }
+      ]
     });
     const review = new ReviewModel({
       rating: 4,
