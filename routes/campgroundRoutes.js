@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const multer = require('multer');
 const {
   showCampground,
   listCampgrounds,
@@ -10,7 +11,19 @@ const {
   isCampgroundAuthor,
   isAuthenticated
 } = require('../middleware/authMiddleware');
-const { catchAsync } = require('../utils');
+const { catchAsync, imageFilter } = require('../utils');
+
+const { storage } = require('../models/cloudinary');
+const upload = multer({
+  storage,
+  limits: {
+    fields: 20,
+    fileSize: 1024 * 1024 * 25,
+    files: 5,
+    parts: 10
+  },
+  fileFilter: imageFilter
+});
 
 const router = new Router();
 
@@ -31,6 +44,10 @@ router
 router
   .route('/')
   .get(catchAsync(listCampgrounds))
-  .post(catchAsync(isAuthenticated), catchAsync(createCampground));
+  .post(
+    catchAsync(isAuthenticated),
+    upload.array('images'),
+    catchAsync(createCampground)
+  );
 
 module.exports = router;

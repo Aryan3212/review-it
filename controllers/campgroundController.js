@@ -28,6 +28,13 @@ const showCampground = async (req, res) => {
 
 const createCampground = async (req, res) => {
   const { title, price, description, longitude, latitude, name } = req.body;
+  const author = req.user;
+  const images = req.files.map((file) => {
+    return {
+      url: file.path,
+      filename: file.filename
+    };
+  });
   const newCamp = new CampgroundModel({
     title,
     price,
@@ -39,10 +46,12 @@ const createCampground = async (req, res) => {
       properties: {
         name: name || ''
       }
-    }
+    },
+    author,
+    images
   });
   await newCamp.save();
-  res.redirect(`/campgrounds/${newCamp.id}`);
+  res.redirect(`/campgrounds/`);
 };
 
 const deleteCampground = async (req, res) => {
@@ -54,7 +63,7 @@ const deleteCampground = async (req, res) => {
 const updateCampground = async (req, res) => {
   const { id } = req.params;
   const toBeUpdatedCamp = await CampgroundModel.findById(id);
-  // return if camp doesnt exist
+  // return if camp doesn't exist
   const { title, price, description, location } = req.body;
 
   toBeUpdatedCamp.title = title || toBeUpdatedCamp.title;
