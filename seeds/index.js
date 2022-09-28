@@ -11,14 +11,14 @@ async function seed() {
   await CampgroundModel.deleteMany({});
   await ReviewModel.deleteMany({});
   await UserModel.deleteMany({});
-  const user = new UserModel({
-    username: 'aryan3212',
-    email: 'rahman.aryan07@gmail.com'
+  const first_user = new UserModel({
+    username: 'first_user',
+    email: 'first_user@gmail.com'
   });
   await UserModel.register(user, '12345');
-  const user2 = new UserModel({
-    username: 'user3212',
-    email: 'user@gmail.com'
+  const second_user = new UserModel({
+    username: 'second_user',
+    email: 'second_user@gmail.com'
   });
   await UserModel.register(user2, '12345');
   let toggle = true;
@@ -37,7 +37,7 @@ async function seed() {
           name: `${c.state}, ${c.city}`
         }
       },
-      author: toggle ? user.id : user2.id,
+      author: toggle ? second_user.id : first_user.id,
       images: [
         {
           url: process.env.SEED_IMG,
@@ -48,28 +48,28 @@ async function seed() {
     const review = new ReviewModel({
       rating: 4,
       details: 'This is a great campground!',
-      author: user.id,
+      author: first_user.id,
       campground: camp.id
     });
     reviews.push(review);
     const review2 = new ReviewModel({
       rating: 4,
       details: 'This is a great campground!',
-      author: user2.id,
+      author: second_user.id,
       campground: camp.id
     });
     reviews.push(review2);
     const review3 = new ReviewModel({
       rating: 4,
       details: 'This is a great campground!',
-      author: user.id,
+      author: first_user.id,
       campground: camp.id
     });
     reviews.push(review3);
     const review4 = new ReviewModel({
       rating: 4,
       details: 'This is a great campground!',
-      author: user2.id,
+      author: second_user.id,
       campground: camp.id
     });
     reviews.push(review4);
