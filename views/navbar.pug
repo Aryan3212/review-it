@@ -48,6 +48,7 @@ mixin navbar(currentUser)
               form(action="/users/logout", method="post") 
                 button.button.is-danger(type="submit") Logout
             else
+              include ./comps/googleButton
               a.button.is-primary.js-modal-trigger(data-target='modal-js-register')
                 strong Sign up
               a.button.is-light.js-modal-trigger(data-target='modal-js-login') Login
