@@ -44,7 +44,7 @@ mixin navbar(currentUser)
             if currentUser
               a.button.is-primary.js-modal-trigger(data-target='modal-js-new-post')
                 strong New Post
-              p.box #{currentUser.username} 
+              p #{currentUser.username} 
               form(action="/users/logout", method="post") 
                 button.button.is-danger(type="submit") Logout
             else

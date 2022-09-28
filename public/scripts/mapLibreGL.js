@@ -1,7 +1,7 @@
-var map = new maplibregl.Map({
+let map = new maplibregl.Map({
   container: 'map',
   style: `https://api.maptiler.com/maps/streets/style.json?key=${mapTilerApiKey}`,
-  center: [-103.59179687498357, 40.66995747013945],
+  center: data.features[0].geometry.coordinates,
   zoom: 3
 });
 
@@ -70,10 +70,10 @@ map.on('load', function () {
 
   // inspect a cluster on click
   map.on('click', 'clusters', function (e) {
-    console.log(e);
     var features = map.queryRenderedFeatures(e.point, {
       layers: ['clusters']
     });
+
     var clusterId = features[0].properties.cluster_id;
     map
       .getSource('campgrounds')

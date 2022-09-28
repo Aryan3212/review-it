@@ -8,7 +8,7 @@ block scripts
   script(src="/public/scripts/mapLibreGL.js" defer)
   
 block content
-  <div id='map' style='width: 400px; height: 300px;'></div>
+  <div id='map' style='width: 100%; height: 300px;'></div>
   each camp in campgrounds
     div(class="card")
       a(href='/campgrounds/'+camp.id)
