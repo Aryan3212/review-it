@@ -15,12 +15,12 @@ async function seed() {
     username: 'first_user',
     email: 'first_user@gmail.com'
   });
-  await UserModel.register(user, '12345');
+  await UserModel.register(first_user, '12345');
   const second_user = new UserModel({
     username: 'second_user',
     email: 'second_user@gmail.com'
   });
-  await UserModel.register(user2, '12345');
+  await UserModel.register(second_user, '12345');
   let toggle = true;
   camps.forEach((c) => {
     const camp = new CampgroundModel({
