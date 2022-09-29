@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@maplibre/maplibre-gl-geocoder": "^1.4.2",
     "cloudinary": "^1.32.0",
     "connect-mongo": "^4.6.0",
     "cross-env": "^7.0.3",
