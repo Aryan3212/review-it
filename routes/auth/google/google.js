@@ -6,11 +6,8 @@ let GoogleStrategy = require('passport-google-oauth20').Strategy;
 const router = new Router();
 
 const googleAuthenticate = async (accessToken, refreshToken, profile, cb) => {
-  console.log(accessToken, refreshToken, profile.json);
-
   if (profile._json.email && profile._json.email_verified) {
     const user = await UserModel.findOne({ email: profile._json.email });
-    console.log(user);
     if (!user) {
       const newUser = new UserModel({
         username: profile.emails.value,
