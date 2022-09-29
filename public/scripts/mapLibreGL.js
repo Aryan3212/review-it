@@ -70,11 +70,11 @@ map.on('load', function () {
 
   // inspect a cluster on click
   map.on('click', 'clusters', function (e) {
-    var features = map.queryRenderedFeatures(e.point, {
+    let features = map.queryRenderedFeatures(e.point, {
       layers: ['clusters']
     });
 
-    var clusterId = features[0].properties.cluster_id;
+    let clusterId = features[0].properties.cluster_id;
     map
       .getSource('campgrounds')
       .getClusterExpansionZoom(clusterId, function (err, zoom) {
@@ -82,7 +82,7 @@ map.on('load', function () {
 
         map.easeTo({
           center: features[0].geometry.coordinates,
-          zoom: zoom
+          zoom: 5
         });
       });
   });
@@ -92,9 +92,11 @@ map.on('load', function () {
   // the location of the feature, with
   // description HTML from its properties.
   map.on('click', 'unclustered-point', function (e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var mag = e.features[0].properties.mag;
-    console.log(e);
+    let coordinates = e.features[0].geometry.coordinates.slice();
+    let name = e.features[0].properties.name;
+    let title = e.features[0].properties.title;
+    let id = e.features[0].properties.id;
+    console.log(e.features[0]);
     // Ensure that if the map is zoomed out such that
     // multiple copies of the feature are visible, the
     // popup appears over the copy being pointed to.
@@ -104,7 +106,9 @@ map.on('load', function () {
 
     new maplibregl.Popup()
       .setLngLat(coordinates)
-      .setHTML('magnitude: ' + mag + '<br>Was there a tsunami?: ' + tsunami)
+      .setHTML(
+        `<a href="/campgrounds/${id}"><h6>${title}</h6></a><p>${name}</p>`
+      )
       .addTo(map);
   });
 
@@ -113,5 +117,21 @@ map.on('load', function () {
   });
   map.on('mouseleave', 'clusters', function () {
     map.getCanvas().style.cursor = '';
+  });
+  let geoLocate = new maplibregl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true,
+      timeout: 6000
+    },
+    fitBoundsOptions: {
+      linear: true
+    },
+    showUserLocation: true
+  });
+  // Add the control to the map.
+  map.addControl(geoLocate);
+  // Set an event listener that fires
+  geoLocate.on('error', function () {
+    console.log('An error event has occurred.');
   });
 });
