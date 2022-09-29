@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { UserModel } = require('./userModel');
 const { Schema } = mongoose;
 
 const opts = {
@@ -14,11 +13,16 @@ const opts = {
     }
   }
 };
+
 // Schema definitions
 
 const ReviewSchema = new Schema(
   {
-    details: String,
+    details: {
+      type: String,
+      minLength: 1,
+      maxLength: 1500
+    },
     rating: {
       type: Number,
       min: 1,
@@ -27,12 +31,14 @@ const ReviewSchema = new Schema(
     author: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      index: true
+      index: true,
+      required: true
     },
     campground: {
       type: Schema.Types.ObjectId,
       ref: 'Campground',
-      index: true
+      index: true,
+      required: true
     }
   },
   opts
