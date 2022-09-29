@@ -14,9 +14,18 @@ const marker = new maplibregl.Marker({
 
 function onDragEnd() {
   const lngLat = marker.getLngLat();
-
   newPostForm.longitude.value = lngLat.lng;
   newPostForm.latitude.value = lngLat.lat;
+  fetch(
+    `https://api.maptiler.com/geocoding/${lngLat.lng},${lngLat.lat}.json?key=${mapTilerApiKey}`
+  )
+    .then((raw) => {
+      return raw.json();
+    })
+    .then((data) => {
+      newPostForm.name.value = data.features && data.features[0].place_name;
+    })
+    .catch(() => {});
 }
 
 marker.on('dragend', onDragEnd);
