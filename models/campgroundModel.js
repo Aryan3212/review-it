@@ -7,8 +7,17 @@ const coordinatesArrayValidator = (a) => a.length == 2;
 
 // Schema definitions
 const ImageSchema = new Schema({
-  url: String,
-  filename: String
+  url: {
+    type: String,
+    minLength: 1,
+    required: true,
+    default: process.env.DEFAULT_IMG
+  },
+  filename: {
+    type: String,
+    minLength: 1,
+    required: true
+  }
 });
 
 ImageSchema.virtual('thumbnail').get(function () {
@@ -30,18 +39,29 @@ const opts = {
 
 const LocationSchema = new Schema(
   {
-    type: { type: String, enum: ['Feature'], default: 'Feature' },
+    type: {
+      type: String,
+      enum: ['Feature'],
+      default: 'Feature',
+      required: true
+    },
     geometry: {
-      type: { type: String, enum: ['Point'], default: 'Point' },
+      type: { type: String, enum: ['Point'], default: 'Point', required: true },
       coordinates: {
         type: [Number],
         validate: {
           validator: coordinatesArrayValidator
-        }
+        },
+        required: true
       }
     },
     properties: {
-      name: String
+      name: {
+        type: String,
+        minLength: 1,
+        maxLength: 300,
+        required: true
+      }
     }
   },
   { _id: false }
@@ -49,17 +69,26 @@ const LocationSchema = new Schema(
 
 const CampgroundSchema = new Schema(
   {
-    title: String,
+    title: {
+      type: String,
+      minLength: 1,
+      maxLength: 300
+    },
     price: {
       type: Number,
       min: 0
     },
-    description: String,
+    description: {
+      type: String,
+      minLength: 1,
+      maxLength: 1500
+    },
     location: LocationSchema,
     images: [ImageSchema],
     author: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
       index: true
     }
   },
