@@ -1,6 +1,4 @@
 const { UserModel } = require('../models/userModel');
-const passport = require('passport');
-const loginUser = async (req, res) => {};
 
 const logoutUser = async (req, res) => {
   req.logout(() => {
@@ -27,11 +25,14 @@ const registerUser = async (req, res, next) => {
   });
 };
 
-const deleteUser = async (req, res) => {};
+const deleteUser = async (req, res) => {
+  // TODO
+};
 
-const updateUser = async (req, res) => {};
+const updateUser = async (req, res) => {
+  // TODO
+};
 module.exports = {
-  loginUser,
   registerUser,
   logoutUser,
   updateUser,
