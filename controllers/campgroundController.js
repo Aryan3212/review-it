@@ -4,7 +4,15 @@ const { ReviewModel } = require('../models/ReviewModel');
 const listCampgrounds = async (req, res) => {
   const campgrounds = await CampgroundModel.find({});
   const user = req.user;
-  const geoData = campgrounds.map((c) => c.location);
+  const geoData = campgrounds.map((c) => {
+    const rObj = { ...c.location.toObject() };
+    rObj.properties = {
+      name: rObj.properties.name,
+      title: c.title,
+      id: c.id
+    };
+    return rObj;
+  });
   res.status(200).render('campgrounds/list', {
     title: 'Campgrounds',
     campgrounds,
@@ -18,7 +26,16 @@ const showCampground = async (req, res) => {
   const { id } = req.params;
   const user = req.user;
   const campground = await CampgroundModel.findById(id).populate('author');
-  const geoData = [campground.location];
+  const geoData = [
+    {
+      ...campground.location.toObject(),
+      properties: {
+        name: campground.location.properties.name,
+        title: campground.title,
+        id: campground.id
+      }
+    }
+  ];
   const reviews = await ReviewModel.find({
     campground: campground.id
   }).populate('author');
