@@ -42,6 +42,14 @@ async function seed() {
         {
           url: process.env.SEED_IMG,
           filename: 'arstairnsevdmfwplu'
+        },
+        {
+          url: process.env.SEED_IMG,
+          filename: 'arstairnsevdmfwplu'
+        },
+        {
+          url: process.env.SEED_IMG,
+          filename: 'arstairnsevdmfwplu'
         }
       ]
     });
