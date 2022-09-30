@@ -1,69 +1,69 @@
 include navbar
 
-html
-  head
-    title #{title}
-    meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width,initial-scale=1')
-    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css')
-    script(src='https://kit.fontawesome.com/b5edcae973.js' crossorigin='anonymous')
-    script(src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js')
-    link(href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet')
-    block scripts
-  body(class="container is-max-desktop")
-    +navbar(currentUser)
-    block content
-    if !currentUser
-      #modal-js-login.modal
-        .modal-background
-        .modal-content
-          .box
-            form(action="/users/login", method="post")
-              .field
-                p.control.has-icons-left.has-icons-right
-                  input.input(type='text' placeholder='Username' name='username')
-                  span.icon.is-small.is-left
-                    i.fas.fa-user
-                  span.icon.is-small.is-right
-                    i.fas.fa-check
-              .field
-                p.control.has-icons-left
-                  input.input(type='password' placeholder='Password' name='password')
-                  span.icon.is-small.is-left
-                    i.fas.fa-lock
-              .field
-                p.control
-                  button.button.is-success.
-                    Login
-        button.modal-close.is-large(aria-label='close')
-      #modal-js-register.modal
-        .modal-background
-        .modal-content
-          .box
-            form(action="/users/register", method="post")
-              .field
-                p.control.has-icons-left.has-icons-right
-                  input.input(type='text' placeholder='Email' name='email')
-                  span.icon.is-small.is-left
-                    i.fas.fa-envelope
-                  span.icon.is-small.is-right
-                    i.fas.fa-check
-              .field
-                p.control.has-icons-left.has-icons-right
-                  input.input(type='text' placeholder='Username' name='username')
-                  span.icon.is-small.is-left
-                    i.fas.fa-user
-                  span.icon.is-small.is-right
-                    i.fas.fa-check
-              .field
-                p.control.has-icons-left
-                  input.input(type='password' placeholder='Password' name='password')
-                  span.icon.is-small.is-left
-                    i.fas.fa-lock
-              .field
-                p.control
-                  button.button.is-success.
-                    Register
-        button.modal-close.is-large(aria-label='close')
-    else
-      include createPostForm
+doctype html
+head
+  title #{title}
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width,initial-scale=1')
+  link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css')
+  script(src='https://kit.fontawesome.com/b5edcae973.js' crossorigin='anonymous')
+  script(src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js')
+  link(href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet')
+  block scripts
+body(class="container is-max-desktop")
+  +navbar(currentUser)
+  block content
+  if !currentUser
+    #modal-js-login.modal
+      .modal-background
+      .modal-content
+        .box
+          form(action="/users/login", method="post")
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='text' placeholder='Username' name='username')
+                span.icon.is-small.is-left
+                  i.fas.fa-user
+                span.icon.is-small.is-right
+                  i.fas.fa-check
+            .field
+              p.control.has-icons-left
+                input.input(type='password' placeholder='Password' name='password')
+                span.icon.is-small.is-left
+                  i.fas.fa-lock
+            .field
+              p.control
+                button.button.is-success.
+                  Login
+      button.modal-close.is-large(aria-label='close')
+    #modal-js-register.modal
+      .modal-background
+      .modal-content
+        .box
+          form(action="/users/register", method="post")
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='text' placeholder='Email' name='email')
+                span.icon.is-small.is-left
+                  i.fas.fa-envelope
+                span.icon.is-small.is-right
+                  i.fas.fa-check
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='text' placeholder='Username' name='username')
+                span.icon.is-small.is-left
+                  i.fas.fa-user
+                span.icon.is-small.is-right
+                  i.fas.fa-check
+            .field
+              p.control.has-icons-left
+                input.input(type='password' placeholder='Password' name='password')
+                span.icon.is-small.is-left
+                  i.fas.fa-lock
+            .field
+              p.control
+                button.button.is-success.
+                  Register
+      button.modal-close.is-large(aria-label='close')
+  else
+    include createPostForm
