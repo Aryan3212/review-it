@@ -10,8 +10,8 @@ const googleAuthenticate = async (accessToken, refreshToken, profile, cb) => {
     const user = await UserModel.findOne({ email: profile._json.email });
     if (!user) {
       const newUser = new UserModel({
-        username: profile.emails.value,
-        email: profile.emails.value
+        username: profile._json.email,
+        email: profile._json.email
       });
       const registeredUser = await UserModel.register(newUser, '12345');
       return cb(null, registeredUser);
