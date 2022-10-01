@@ -27,7 +27,7 @@ CLOUDINARY_API_CLOUD_NAME=
 CLOUDINARY_FOLDER=
 
 // Images to use when seeding and use as default when no image is provided
-// These must be URLs pointing to images and it's best to have them hosted on your own server(such as on Cloudinary)
+// These must be URLs pointing to images and it\'s best to have them hosted on your own server(such as on Cloudinary)
 SEED_IMG=
 DEFAULT_IMG=
 
