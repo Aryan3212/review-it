@@ -1,20 +1,20 @@
-const { CampgroundModel } = require('../models/campgroundModel');
+const { PostModel } = require('../models/postModel');
 const { ReviewModel } = require('../models/ReviewModel');
 // Backend validator
-const isCampgroundAuthor = async (req, res, next) => {
+const isPostAuthor = async (req, res, next) => {
   const { id } = req.params;
-  const campground = await CampgroundModel.findById(id);
-  if (!campground.author.equals(req.user.id)) {
-    return res.redirect(`/campgrounds/${id}`);
+  const post = await PostModel.findById(id);
+  if (!post.author.equals(req.user.id)) {
+    return res.redirect(`/posts/${id}`);
   }
   return next();
 };
 
 const isReviewAuthor = async (req, res, next) => {
-  const { campground_id: id, id: reviewId } = req.params;
+  const { post_id: id, id: reviewId } = req.params;
   const review = await ReviewModel.findById(reviewId);
   if (!review.author.equals(req.user.id)) {
-    return res.redirect(`/campgrounds/${id}`);
+    return res.redirect(`/posts/${id}`);
   }
   next();
 };
@@ -29,7 +29,7 @@ const isAuthenticated = async (req, res, next) => {
 };
 
 module.exports = {
-  isCampgroundAuthor,
+  isPostAuthor,
   isReviewAuthor,
   isAuthenticated
 };

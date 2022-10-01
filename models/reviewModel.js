@@ -34,9 +34,9 @@ const ReviewSchema = new Schema(
       index: true,
       required: true
     },
-    campground: {
+    post: {
       type: Schema.Types.ObjectId,
-      ref: 'Campground',
+      ref: 'Post',
       index: true,
       required: true
     }

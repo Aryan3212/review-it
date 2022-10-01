@@ -107,7 +107,7 @@ function get(e) {
 //             },
 //         });
 //         console.log(data);
-//         fetch("/campgrounds", {
+//         fetch("/posts", {
 //             method: "POST",
 //             redirect: "follow",
 //             headers: {

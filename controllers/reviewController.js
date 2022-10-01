@@ -2,23 +2,23 @@ const { ReviewModel } = require('../models/ReviewModel');
 
 const createReview = async (req, res) => {
   const { details, rating } = req.body;
-  const { campground_id: campground } = req.params;
+  const { post_id: post } = req.params;
   const author = req.user.id;
   const newReview = new ReviewModel({
     details,
     rating,
     author,
-    campground
+    post
   });
   await newReview.save();
-  res.redirect(`/campgrounds/${campground}`);
+  res.redirect(`/posts/${post}`);
 };
 
 const deleteReview = async (req, res) => {
   const { id } = req.params;
   const deletingCamp = await ReviewModel.findByIdAndRemove(id);
   console.log(deletingCamp);
-  res.redirect(`/campgrounds/${deletingCamp.campground}`);
+  res.redirect(`/posts/${deletingCamp.post}`);
 };
 
 const updateReview = async (req, res) => {
@@ -32,7 +32,7 @@ const updateReview = async (req, res) => {
 
   await toBeUpdatedReview.save();
   // Redirect to somewhere useful
-  res.redirect(`/campgrounds/${toBeUpdatedReview.campground}`);
+  res.redirect(`/posts/${toBeUpdatedReview.post}`);
 };
 module.exports = {
   createReview,
