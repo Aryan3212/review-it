@@ -53,7 +53,7 @@ I'm planning on deploying this after I can put in safeguards in place so that pe
 
 The issues tab contains a running list of changes(closed Issues) and expected features.
 
-How to run this:
+## How to run this:
 
 Commands are written inside the terminal or command line.
 
