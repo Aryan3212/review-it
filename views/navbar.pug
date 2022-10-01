@@ -1,7 +1,7 @@
 mixin navbar(currentUser) 
   nav.navbar(role='navigation' aria-label='main navigation')
     .navbar-brand
-      a.navbar-item(href='/campgrounds')
+      a.navbar-item(href='/posts')
         img(src='/public/kri.png' height='112' )
       a.navbar-burger(role='button' aria-label='menu' aria-expanded='false' data-target='headerNavbar')
         span(aria-hidden='true')
@@ -44,7 +44,7 @@ mixin navbar(currentUser)
             if currentUser
               a.button.is-primary.js-modal-trigger(data-target='modal-js-new-post')
                 strong New Post
-              p #{currentUser.username} 
+              p.mx-3 #{currentUser.username} 
               form(action="/users/logout", method="post") 
                 button.button.is-danger(type="submit") Logout
             else
