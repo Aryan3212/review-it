@@ -56,6 +56,6 @@ flowchart TD
   B --`make sure MongoDB is running`--> C(create .env files to store environment variables)
   C -- `get necessary API keys and put them in the .env file` --> D(install dependencies)
   D -- `npm i` -->E(run seed file)
-  F-- `npm run seed` -->G(run dev server)
-  H-- `npm run dev` -->I(open localhost:3000 in the browser)
+  E-- `npm run seed` -->F(run dev server)
+  F-- `npm run dev` -->G(open localhost:3000 in the browser)
 ```
