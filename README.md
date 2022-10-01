@@ -10,7 +10,7 @@ Note that you need `mongod` which is the MongoDB daemon service to run MongoDB l
 
 You will also need to setup a few environment variables:
 
-```env
+```.env
 
 // Randomly generated secret to be used when storing sessions, can be anything really
 SESSION_SECRET=
