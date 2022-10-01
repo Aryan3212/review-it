@@ -11,12 +11,15 @@ const routes = require('./routes');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
+const ExpressMongoSanitize = require('express-mongo-sanitize');
 
 const app = express();
 app.disable('x-powered-by');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(ExpressMongoSanitize());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
