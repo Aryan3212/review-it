@@ -1,8 +1,11 @@
 # Review It!
 
-This is a project to mainly implement a lot of the concepts I've learnt along the way and apply them to build a full fledged product that gets extended over time. It's really easy to get set up and will probably work on all machines.
+This is a project to mainly implement a lot of the concepts I've learnt along the way and apply them to build a full fledged product that gets extended over time.
+It's really easy to get set up and will probably work on all machines.
 
-Currently you'll need a local instance of MongoDB running on port 12717 to use the app. Also note that, currently only Cloudinary image upload is supported so using another service isn't possible. I'm planning to use the Facade Pattern to abstract this out so I(or anyone) can swap vendors.
+Currently you'll need a local instance of MongoDB running on port 12717 to use the app.
+Also note that, currently only Cloudinary image upload is supported so using another service isn't possible.
+I'm planning to use the Facade Pattern to abstract this out so I(or anyone) can swap vendors.
 
 How to install MongoDB: https://www.mongodb.com/docs/manual/administration/install-community/
 
