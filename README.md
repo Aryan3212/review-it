@@ -41,7 +41,7 @@ DEFAULT_IMG=
 MAPTILER_API_KEY=
 
 // These are used for Google OAuth, can be generated at- https://console.developers.google.com/
-// A guide to create keys for OAuth is liked here- https://support.google.com/cloud/answer/6158849?hl=en
+// A guide to create keys for OAuth is linked here- https://support.google.com/cloud/answer/6158849?hl=en
 // Note: This flow only uses OpenID Connect and no permissions for other APIs are necessary
 
 GOOGLE_CLIENT_ID=
