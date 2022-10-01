@@ -8,7 +8,7 @@ How to install MongoDB: https://www.mongodb.com/docs/manual/administration/insta
 
 Note that you need `mongod` which is the MongoDB daemon service to run MongoDB locally. You can verify if it's running using the `mongosh` command which opens the MongoDB shell client.
 
-You will also need to setup a few environment variables:
+You will also need to setup a few environment variables, shown below is a skeleton of the .env file that needs to be created:
 
 ```
 
