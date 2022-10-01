@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 const sessionStoreOpts = {
-  mongoUrl: process.env.DB_URL || 'mongodb://127.0.0.1:27017/camp',
+  mongoUrl: process.env.DB_URL || 'mongodb://127.0.0.1:27017/review-it',
   secret: process.env.SESSION_SECRET,
   touchAfter: 24 * 3600
 };

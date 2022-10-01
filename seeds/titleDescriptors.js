@@ -16,7 +16,7 @@ module.exports.descriptors = [
   'Sea',
   'Sky',
   'Dusty',
-  'Diamond',
+  'Diamond'
 ];
 
 module.exports.places = [
@@ -24,11 +24,11 @@ module.exports.places = [
   'Village',
   'Canyon',
   'Pond',
-  'Group Camp',
-  'Horse Camp',
+  'Group post',
+  'Horse post',
   'Ghost Town',
-  'Camp',
-  'Dispersed Camp',
+  'post',
+  'Dispersed post',
   'Backcountry',
   'River',
   'Creek',
@@ -37,8 +37,8 @@ module.exports.places = [
   'Spring',
   'Bayshore',
   'Sands',
-  'Mule Camp',
-  'Hunting Camp',
+  'Mule post',
+  'Hunting post',
   'Cliffs',
-  'Hollow',
+  'Hollow'
 ];

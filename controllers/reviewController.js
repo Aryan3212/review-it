@@ -16,19 +16,19 @@ const createReview = async (req, res) => {
 
 const deleteReview = async (req, res) => {
   const { id } = req.params;
-  const deletingCamp = await ReviewModel.findByIdAndRemove(id);
-  console.log(deletingCamp);
-  res.redirect(`/posts/${deletingCamp.post}`);
+  const deletingPost = await ReviewModel.findByIdAndRemove(id);
+  console.log(deletingPost);
+  res.redirect(`/posts/${deletingPost.post}`);
 };
 
 const updateReview = async (req, res) => {
   const { id } = req.params;
   const toBeUpdatedReview = await ReviewModel.findById(id);
-  // return if camp doesnt exist
+  // return if post doesnt exist
   const { details, rating } = req.body;
 
-  toBeUpdatedReview.details = details || toBeUpdatedCamp.details;
-  toBeUpdatedReview.rating = rating || toBeUpdatedCamp.rating;
+  toBeUpdatedReview.details = details || toBeUpdatedPost.details;
+  toBeUpdatedReview.rating = rating || toBeUpdatedPost.rating;
 
   await toBeUpdatedReview.save();
   // Redirect to somewhere useful

@@ -2,7 +2,7 @@ const { PostModel } = require('../models/postModel');
 const { ReviewModel } = require('../models/reviewModel');
 const { UserModel } = require('../models/userModel');
 const { db } = require('../db');
-const camps = require('./cities').slice(0, 15);
+const posts = require('./cities').slice(0, 15);
 const { places, descriptors } = require('./titleDescriptors');
 require('dotenv').config();
 async function seed() {
@@ -22,8 +22,8 @@ async function seed() {
   });
   await UserModel.register(second_user, '12345');
   let toggle = true;
-  camps.forEach((c) => {
-    const camp = new PostModel({
+  posts.forEach((c) => {
+    const post = new PostModel({
       title: `${descriptors[Math.floor(Math.random() * descriptors.length)]} ${
         places[Math.floor(Math.random() * places.length)]
       }`,
@@ -57,32 +57,32 @@ async function seed() {
       rating: 4,
       details: 'This is a great post!',
       author: first_user.id,
-      post: camp.id
+      post: post.id
     });
     reviews.push(review);
     const review2 = new ReviewModel({
       rating: 4,
       details: 'This is a great post!',
       author: second_user.id,
-      post: camp.id
+      post: post.id
     });
     reviews.push(review2);
     const review3 = new ReviewModel({
       rating: 4,
       details: 'This is a great post!',
       author: first_user.id,
-      post: camp.id
+      post: post.id
     });
     reviews.push(review3);
     const review4 = new ReviewModel({
       rating: 4,
       details: 'This is a great post!',
       author: second_user.id,
-      post: camp.id
+      post: post.id
     });
     reviews.push(review4);
     toggle = !toggle;
-    documents.push(camp);
+    documents.push(post);
   });
 
   await PostModel.bulkSave(documents);

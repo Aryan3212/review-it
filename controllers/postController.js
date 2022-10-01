@@ -58,7 +58,7 @@ const createPost = async (req, res) => {
       filename: file.filename
     };
   });
-  const newCamp = new PostModel({
+  const newPost = new PostModel({
     title,
     price,
     description,
@@ -73,34 +73,34 @@ const createPost = async (req, res) => {
     author,
     images
   });
-  await newCamp.save();
+  await newPost.save();
   res.redirect(`/posts/`);
 };
 
 const deletePost = async (req, res) => {
   const { id } = req.params;
-  const deletingCamp = await PostModel.deleteOne({ _id: id });
+  const deletingPost = await PostModel.deleteOne({ _id: id });
   res.redirect('/posts');
 };
 
 const updatePost = async (req, res) => {
   const { id } = req.params;
-  const toBeUpdatedCamp = await PostModel.findById(id);
-  // return if camp doesn't exist
+  const toBeUpdatedPost = await PostModel.findById(id);
+  // return if post doesn't exist
   const { title, price, description, location } = req.body;
 
-  toBeUpdatedCamp.title = title || toBeUpdatedCamp.title;
-  toBeUpdatedCamp.price = price || toBeUpdatedCamp.price;
-  toBeUpdatedCamp.description = description || toBeUpdatedCamp.description;
+  toBeUpdatedPost.title = title || toBeUpdatedPost.title;
+  toBeUpdatedPost.price = price || toBeUpdatedPost.price;
+  toBeUpdatedPost.description = description || toBeUpdatedPost.description;
   if (location) {
-    toBeUpdatedCamp.location.geometry.coordinates =
-      location.coordinates || toBeUpdatedCamp.location.geometry.coordinates;
-    toBeUpdatedCamp.location.properties.name =
-      location.name || toBeUpdatedCamp.location.properties.name;
+    toBeUpdatedPost.location.geometry.coordinates =
+      location.coordinates || toBeUpdatedPost.location.geometry.coordinates;
+    toBeUpdatedPost.location.properties.name =
+      location.name || toBeUpdatedPost.location.properties.name;
   }
-  await toBeUpdatedCamp.save();
+  await toBeUpdatedPost.save();
   // Redirect to somewhere useful
-  res.status(204).redirect(`/posts/${toBeUpdatedCamp.id}`);
+  res.status(204).redirect(`/posts/${toBeUpdatedPost.id}`);
 };
 module.exports = {
   listPosts,
