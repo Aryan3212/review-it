@@ -1,10 +1,10 @@
-const { CampgroundModel } = require('../models/campgroundModel');
+const { PostModel } = require('../models/postModel');
 const { ReviewModel } = require('../models/ReviewModel');
 
-const listCampgrounds = async (req, res) => {
-  const campgrounds = await CampgroundModel.find({});
+const listPosts = async (req, res) => {
+  const posts = await PostModel.find({});
   const user = req.user;
-  const geoData = campgrounds.map((c) => {
+  const geoData = posts.map((c) => {
     const rObj = { ...c.location.toObject() };
     rObj.properties = {
       name: rObj.properties.name,
@@ -13,35 +13,35 @@ const listCampgrounds = async (req, res) => {
     };
     return rObj;
   });
-  res.status(200).render('campgrounds/list', {
-    title: 'Campgrounds',
-    campgrounds,
+  res.status(200).render('posts/list', {
+    title: 'Posts',
+    posts,
     currentUser: user,
     geoData,
     mapTilerApiKey: process.env.MAPTILER_API_KEY
   });
 };
 
-const showCampground = async (req, res) => {
+const showPost = async (req, res) => {
   const { id } = req.params;
   const user = req.user;
-  const campground = await CampgroundModel.findById(id).populate('author');
+  const post = await PostModel.findById(id).populate('author');
   const geoData = [
     {
-      ...campground.location.toObject(),
+      ...post.location.toObject(),
       properties: {
-        name: campground.location.properties.name,
-        title: campground.title,
-        id: campground.id
+        name: post.location.properties.name,
+        title: post.title,
+        id: post.id
       }
     }
   ];
   const reviews = await ReviewModel.find({
-    campground: campground.id
+    post: post.id
   }).populate('author');
-  res.status(200).render('campgrounds/show', {
-    title: campground.title,
-    campground,
+  res.status(200).render('posts/show', {
+    title: post.title,
+    post,
     reviews,
     currentUser: user,
     geoData,
@@ -49,7 +49,7 @@ const showCampground = async (req, res) => {
   });
 };
 
-const createCampground = async (req, res) => {
+const createPost = async (req, res) => {
   const { title, price, description, longitude, latitude, name } = req.body;
   const author = req.user;
   const images = req.files.map((file) => {
@@ -58,7 +58,7 @@ const createCampground = async (req, res) => {
       filename: file.filename
     };
   });
-  const newCamp = new CampgroundModel({
+  const newCamp = new PostModel({
     title,
     price,
     description,
@@ -74,18 +74,18 @@ const createCampground = async (req, res) => {
     images
   });
   await newCamp.save();
-  res.redirect(`/campgrounds/`);
+  res.redirect(`/posts/`);
 };
 
-const deleteCampground = async (req, res) => {
+const deletePost = async (req, res) => {
   const { id } = req.params;
-  const deletingCamp = await CampgroundModel.deleteOne({ _id: id });
-  res.redirect('/campgrounds');
+  const deletingCamp = await PostModel.deleteOne({ _id: id });
+  res.redirect('/posts');
 };
 
-const updateCampground = async (req, res) => {
+const updatePost = async (req, res) => {
   const { id } = req.params;
-  const toBeUpdatedCamp = await CampgroundModel.findById(id);
+  const toBeUpdatedCamp = await PostModel.findById(id);
   // return if camp doesn't exist
   const { title, price, description, location } = req.body;
 
@@ -100,12 +100,12 @@ const updateCampground = async (req, res) => {
   }
   await toBeUpdatedCamp.save();
   // Redirect to somewhere useful
-  res.status(204).redirect(`/campgrounds/${toBeUpdatedCamp.id}`);
+  res.status(204).redirect(`/posts/${toBeUpdatedCamp.id}`);
 };
 module.exports = {
-  listCampgrounds,
-  showCampground,
-  createCampground,
-  updateCampground,
-  deleteCampground
+  listPosts,
+  showPost,
+  createPost,
+  updatePost,
+  deletePost
 };

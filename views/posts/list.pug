@@ -8,12 +8,13 @@ block scripts
   script(src="/public/scripts/mapLibreGL.js" defer)
   
 block content
+  h1.heading.is-size-1 Review anything!
   <div id='map' style='width: 100%; height: 300px;'></div>
   .columns.is-multiline.is-3
-    each camp in campgrounds
+    each camp in posts
       .column.is-one-third
         div(class="card")
-          a(href='/campgrounds/'+camp.id)
+          a(href='/posts/'+camp.id)
             div(class="card-image") 
               figure(class="image is-4by3")
                 img(style="object-fit: cover" src=`${camp.images && camp.images[0] ? camp.images[0].url: 'https://res.cloudinary.com/dwz8ueclf/image/upload/v1664168545/kk1t6wh2dutx4vnuqsje.png'}`, alt=camp.title+"image")

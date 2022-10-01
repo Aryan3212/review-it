@@ -1,14 +1,14 @@
 const { Router } = require('express');
 const multer = require('multer');
 const {
-  showCampground,
-  listCampgrounds,
-  createCampground,
-  updateCampground,
-  deleteCampground
-} = require('../controllers/campgroundController');
+  showPost,
+  listPosts,
+  createPost,
+  updatePost,
+  deletePost
+} = require('../controllers/postController');
 const {
-  isCampgroundAuthor,
+  isPostAuthor,
   isAuthenticated
 } = require('../middleware/authMiddleware');
 const { catchAsync, imageFilter } = require('../utils');
@@ -29,25 +29,25 @@ const router = new Router();
 
 router
   .route('/:id')
-  .get(catchAsync(showCampground))
+  .get(catchAsync(showPost))
   .patch(
     catchAsync(isAuthenticated),
-    catchAsync(isCampgroundAuthor),
-    catchAsync(updateCampground)
+    catchAsync(isPostAuthor),
+    catchAsync(updatePost)
   )
   .delete(
     catchAsync(isAuthenticated),
-    catchAsync(isCampgroundAuthor),
-    catchAsync(deleteCampground)
+    catchAsync(isPostAuthor),
+    catchAsync(deletePost)
   );
 
 router
   .route('/')
-  .get(catchAsync(listCampgrounds))
+  .get(catchAsync(listPosts))
   .post(
     catchAsync(isAuthenticated),
     upload.array('images'),
-    catchAsync(createCampground)
+    catchAsync(createPost)
   );
 
 module.exports = router;

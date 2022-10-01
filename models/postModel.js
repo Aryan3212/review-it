@@ -67,7 +67,7 @@ const LocationSchema = new Schema(
   { _id: false }
 );
 
-const CampgroundSchema = new Schema(
+const PostSchema = new Schema(
   {
     title: {
       type: String,
@@ -95,5 +95,5 @@ const CampgroundSchema = new Schema(
   opts
 );
 
-module.exports.CampgroundModel =
-  mongoose.model.Campground || mongoose.model('Campground', CampgroundSchema);
+module.exports.PostModel =
+  mongoose.model.Post || mongoose.model('Post', PostSchema);
