@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "dev": "cross-env NODE_ENV=development nodemon app.js",
     "seed": "node seeds/index.js",
-    "lint": "eslint . --ext .js --fix"
+    "lint": "eslint . --ext .js --fix",
+    "test": "jest"
   },
   "keywords": [],
   "author": "Aryan Rahman",
@@ -37,6 +37,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.23.1",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^29.2.1"
   }
 }
