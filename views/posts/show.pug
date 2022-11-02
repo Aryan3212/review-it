@@ -30,8 +30,8 @@ block content
             svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24')
               path(d='M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z')
       .card-content
-        h1.is-size-1=post.title 
-        p.is-size-3=post.description
+        h1.is-size-2.is-size-4-mobile=post.title 
+        p.is-size-4.is-size-6-mobile=post.description
     if currentUser && (currentUser.id == post.author.id)
       button.button.is-info.js-modal-trigger.my-3(data-target='modal-js-options-post')
         strong="Edit or Delete Post"
@@ -47,15 +47,16 @@ block content
     each review in reviews
       .review.card(style="border: 3px solid black; margin-block: 2em")
         .card-content
-          h3.has-text-primary.is-size-4='Rating ' + review.rating + ' out of 5' 
-          h2.is-size-5='Given by ' + review.author.username
-          p.is-size-6=review.details
+          h3.has-text-primary.is-size-4.is-size-5-mobile='Rating ' + review.rating + ' out of 5' 
+          h2.is-size-5.is-size-6-mobile='Given by '
+            span.rainbow-box=review.author.username
+          p.is-size-6.is-size-7-mobile=review.details
         if currentUser && review.author.id === currentUser.id
           form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=DELETE" method="POST")
-            button.button.is-danger.my-3(type="submit") Delete Review
+            button.button.is-danger.my-3.is-responsive(type="submit") Delete Review
           form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=PATCH" method="POST")
             textarea.textarea.is-primary.my-3(placeholder='Write a review' name="details"  value=review.details)
             input.custom-range.my-3(type="range" min=1, max=5, name="rating",value=review.rating)     
-            button.button.is-warning.my-3(type="submit") Edit
+            button.button.is-warning.my-3.is-responsive(type="submit") Edit
         script(src="/public/scripts/showPageGlider.js" defer)
   include postOptionsForm
