@@ -42,7 +42,11 @@ router.get(
   passport.authenticate('google', { failureRedirect: '/' }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
+    if (req.user.verified) {
+      res.redirect('/');
+    } else {
+      res.redirect('/users/oauth/finalize');
+    }
   }
 );
 

@@ -3,7 +3,9 @@ const {
   registerUser,
   logoutUser,
   deleteUser,
-  updateUser
+  updateUser,
+  finalizeUser,
+  registerOAuthUser
 } = require('../controllers/userController');
 const { isAuthenticated } = require('../middleware/authMiddleware');
 const { catchAsync } = require('../utils');
@@ -35,4 +37,8 @@ router
   .route('/logout')
   .post(catchAsync(isAuthenticated), catchAsync(logoutUser));
 
+router
+  .route('/oauth/finalize')
+  .get(catchAsync(isAuthenticated), catchAsync(finalizeUser))
+  .post(catchAsync(registerOAuthUser));
 module.exports = router;
