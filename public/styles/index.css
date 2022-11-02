@@ -10,3 +10,12 @@
   );
   border-image-slice: 1;
 }
+
+@media (max-width: 397px){
+  #userboxdesktop {
+    display: flex !important;
+  }
+  #userboxmobile{
+    display: none;
+  }
+}
