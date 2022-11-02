@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config();
+    require('dotenv').config();
 }
 
 const express = require('express');
@@ -25,22 +25,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 const sessionStoreOpts = {
-  mongoUrl: process.env.DB_URL || 'mongodb://127.0.0.1:27017/review-it',
-  secret: process.env.SESSION_SECRET,
-  touchAfter: 24 * 3600
+    mongoUrl: process.env.DB_URL || 'mongodb://127.0.0.1:27017/review-it',
+    secret: process.env.SESSION_SECRET,
+    touchAfter: 24 * 3600
 };
 const sessionOpts = {
-  store: MongoStore.create(sessionStoreOpts),
-  path: '/',
-  httpOnly: true,
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  maxAge: 100 * 60 * 60
+    store: MongoStore.create(sessionStoreOpts),
+    path: '/',
+    httpOnly: true,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    maxAge: 100 * 60 * 60
 };
 if (process.env.NODE_ENV === 'production') {
-  app.set('trust proxy', 1); // trust first proxy
-  sessionOpts.cookie.secure = true; // serve secure cookies
+    app.set('trust proxy', 1); // trust first proxy
+    sessionOpts.cookie.secure = true; // serve secure cookies
 }
 app.use(session(sessionOpts));
 app.use(passport.initialize());
@@ -52,21 +52,21 @@ app.use(routes);
 
 //* Error Routes
 app.use((err, req, res, next) => {
-  console.log('Caught!!', err);
-  res.render('error', { err, currentUser: req.user });
-  next();
+    console.log('Caught!!', err);
+    res.render('error', { err, currentUser: req.user });
+    next();
 });
 
 const server = app.listen(3000, () => {
-  console.log('Serving on 3000');
+    console.log('Serving on 3000');
 });
 
 process.on('SIGTERM', () => {
-  console.info('SIGTERM signal received.');
-  console.log('Closing http server.');
-  db.close();
-  server.close((err) => {
-    console.log('Http server closed.');
-    process.exit(err ? 1 : 0);
-  });
+    console.info('SIGTERM signal received.');
+    console.log('Closing http server.');
+    db.close();
+    server.close((err) => {
+        console.log('Http server closed.');
+        process.exit(err ? 1 : 0);
+    });
 });
