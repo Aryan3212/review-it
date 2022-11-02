@@ -19,7 +19,8 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       unique: true
-    }
+    },
+    verified: { type: Boolean, required: true, default: false }
   },
   opts
 );
@@ -27,7 +28,8 @@ UserSchema.plugin(passportLocalMongoose, {
   limitAttempts: true,
   maxAttempts: 5,
   unlockInterval: 30000,
-  interval: 2000
+  interval: 2000,
+  usernameQueryFields: ['email']
 });
 module.exports.UserModel =
   mongoose.model.User || mongoose.model('User', UserSchema);
