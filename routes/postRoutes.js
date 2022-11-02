@@ -15,7 +15,7 @@ const { catchAsync, imageFilter } = require('../utils');
 
 const { storage } = require('../models/cloudinary');
 const { limitPosts } = require('../middleware/limitItems');
-const { isVerified } = require('../middleware/isVerified');
+const { isVerified } = require('../middleware/userVerifiedMiddleware');
 const upload = multer({
   storage,
   limits: {
