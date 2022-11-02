@@ -14,6 +14,8 @@ const {
 const { catchAsync, imageFilter } = require('../utils');
 
 const { storage } = require('../models/cloudinary');
+const { limitPosts } = require('../middleware/limitItems');
+const { isVerified } = require('../middleware/isVerified');
 const upload = multer({
   storage,
   limits: {
@@ -32,6 +34,8 @@ router
   .get(catchAsync(showPost))
   .patch(
     catchAsync(isAuthenticated),
+    catchAsync(isVerified),
+    upload.array('images'),
     catchAsync(isPostAuthor),
     catchAsync(updatePost)
   )
@@ -46,6 +50,8 @@ router
   .get(catchAsync(listPosts))
   .post(
     catchAsync(isAuthenticated),
+    catchAsync(isVerified),
+    catchAsync(limitPosts),
     upload.array('images'),
     catchAsync(createPost)
   );

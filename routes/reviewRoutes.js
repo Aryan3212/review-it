@@ -8,6 +8,8 @@ const {
   isReviewAuthor,
   isAuthenticated
 } = require('../middleware/authMiddleware');
+const { isVerified } = require('../middleware/isVerified');
+const { limitReviews } = require('../middleware/limitItems');
 const { catchAsync } = require('../utils');
 
 const router = new Router({ mergeParams: true });
@@ -16,6 +18,7 @@ router
   .route('/:id')
   .patch(
     catchAsync(isAuthenticated),
+    catchAsync(isVerified),
     catchAsync(isReviewAuthor),
     catchAsync(updateReview)
   )
@@ -25,6 +28,13 @@ router
     catchAsync(deleteReview)
   );
 
-router.route('/').post(catchAsync(isAuthenticated), catchAsync(createReview));
+router
+  .route('/')
+  .post(
+    catchAsync(isAuthenticated),
+    catchAsync(isVerified),
+    catchAsync(limitReviews),
+    catchAsync(createReview)
+  );
 
 module.exports = router;
