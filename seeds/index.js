@@ -13,12 +13,14 @@ async function seed() {
   await UserModel.deleteMany({});
   const first_user = new UserModel({
     username: 'first_user',
-    email: 'first_user@gmail.com'
+    email: 'first_user@gmail.com',
+    verified: true
   });
   await UserModel.register(first_user, '12345');
   const second_user = new UserModel({
     username: 'second_user',
-    email: 'second_user@gmail.com'
+    email: 'second_user@gmail.com',
+    verified: true
   });
   await UserModel.register(second_user, '12345');
   let toggle = true;
