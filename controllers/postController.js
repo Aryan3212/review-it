@@ -1,111 +1,87 @@
-const { PostModel } = require('../models/postModel');
-const { ReviewModel } = require('../models/ReviewModel');
+const {
+    filterGeolocationDataService,
+    allPostsService,
+    singlePostService,
+    createPostService,
+    deletePostService,
+    postReviewsService,
+    updatePostService
+} = require('../services/postService');
+const { processUploadedImageFiles } = require('../utils');
 
 const listPosts = async (req, res) => {
-  const posts = await PostModel.find({});
-  const user = req.user;
-  const geoData = posts.map((c) => {
-    const rObj = { ...c.location.toObject() };
-    rObj.properties = {
-      name: rObj.properties.name,
-      title: c.title,
-      id: c.id
-    };
-    return rObj;
-  });
-  res.status(200).render('posts/list', {
-    title: 'Posts',
-    posts,
-    currentUser: user,
-    geoData,
-    mapTilerApiKey: process.env.MAPTILER_API_KEY
-  });
+    const user = req.user;
+    const posts = await allPostsService();
+    const geoData = filterGeolocationDataService(posts);
+    res.status(200).render('posts/list', {
+        title: 'Posts',
+        posts,
+        currentUser: user,
+        geoData,
+        mapTilerApiKey: process.env.MAPTILER_API_KEY
+    });
 };
 
 const showPost = async (req, res) => {
-  const { id } = req.params;
-  const user = req.user;
-  const post = await PostModel.findById(id).populate('author');
-  const geoData = [
-    {
-      ...post.location.toObject(),
-      properties: {
-        name: post.location.properties.name,
+    const { id } = req.params;
+    const user = req.user;
+    const post = await singlePostService(id, ['author']);
+    const geoData = filterGeolocationDataService(post);
+    const reviews = await postReviewsService(id);
+    res.status(200).render('posts/show', {
         title: post.title,
-        id: post.id
-      }
-    }
-  ];
-  const reviews = await ReviewModel.find({
-    post: post.id
-  }).populate('author');
-  res.status(200).render('posts/show', {
-    title: post.title,
-    post,
-    reviews,
-    currentUser: user,
-    geoData,
-    mapTilerApiKey: process.env.MAPTILER_API_KEY
-  });
+        post,
+        reviews,
+        currentUser: user,
+        geoData,
+        mapTilerApiKey: process.env.MAPTILER_API_KEY
+    });
 };
 
 const createPost = async (req, res) => {
-  const { title, price, description, longitude, latitude, name } = req.body;
-  const author = req.user;
-  const images = req.files.map((file) => {
-    return {
-      url: file.path,
-      filename: file.filename
-    };
-  });
-  const newPost = new PostModel({
-    title,
-    price,
-    description,
-    location: {
-      geometry: {
-        coordinates: [longitude, latitude]
-      },
-      properties: {
-        name: name || ''
-      }
-    },
-    author,
-    images
-  });
-  await newPost.save();
-  res.redirect(`/posts/`);
+    const { title, price, description, longitude, latitude, name } = req.body;
+    const author = req.user;
+    const images = processUploadedImageFiles(req.files);
+    const newPost = await createPostService({
+        title,
+        price,
+        description,
+        longitude,
+        latitude,
+        name,
+        images,
+        author
+    });
+    res.redirect(`/posts/${newPost.id}`);
 };
 
 const deletePost = async (req, res) => {
-  const { id } = req.params;
-  const deletingPost = await PostModel.deleteOne({ _id: id });
-  res.redirect('/posts');
+    const { id } = req.params;
+    await deletePostService({ id });
+    res.redirect('/posts');
 };
 
 const updatePost = async (req, res) => {
-  const { id } = req.params;
-  const toBeUpdatedPost = await PostModel.findById(id);
-  // return if post doesn't exist
-  const { title, price, description, location } = req.body;
-
-  toBeUpdatedPost.title = title || toBeUpdatedPost.title;
-  toBeUpdatedPost.price = price || toBeUpdatedPost.price;
-  toBeUpdatedPost.description = description || toBeUpdatedPost.description;
-  if (location) {
-    toBeUpdatedPost.location.geometry.coordinates =
-      location.coordinates || toBeUpdatedPost.location.geometry.coordinates;
-    toBeUpdatedPost.location.properties.name =
-      location.name || toBeUpdatedPost.location.properties.name;
-  }
-  await toBeUpdatedPost.save();
-  // Redirect to somewhere useful
-  res.status(204).redirect(`/posts/${toBeUpdatedPost.id}`);
+    const { id } = req.params;
+    const { title, price, description, longitude, latitude, name } = req.body;
+    const images = processUploadedImageFiles(req.files);
+    const updateFields = {
+        id,
+        title,
+        price,
+        description,
+        longitude,
+        latitude,
+        name,
+        images
+    };
+    const updatedPost = await updatePostService(updateFields);
+    res.status(204).redirect(`/posts/${updatedPost.id}`);
 };
 module.exports = {
-  listPosts,
-  showPost,
-  createPost,
-  updatePost,
-  deletePost
+    listPosts,
+    showPost,
+    createPost,
+    updatePost,
+    deletePost
 };
