@@ -1,6 +1,6 @@
 const { PostModel } = require('../models/postModel');
 const { ReviewModel } = require('../models/ReviewModel');
-// Backend validator
+
 const limitReviews = async (req, res, next) => {
   const currentUser = req.user;
   const { post_id } = req.params;
