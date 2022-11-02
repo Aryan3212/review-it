@@ -76,7 +76,10 @@ const toggleVerifyUser = async (req, res) => {
     res.redirect('/');
 };
 const finalizeUser = async (req, res) => {
-    return res.status(200).render('auth/finalize');
+    const currentUser = req.user;
+    return res.status(200).render('auth/finalize', {
+        currentUser
+    });
 };
 const deleteUser = async (req, res) => {
     const { user } = req.user;
