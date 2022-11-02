@@ -2,60 +2,60 @@ extends ../layout
 
 block scripts
   script(src="/public/scripts/index.js") 
-  script.
-    const data ={ features: !{JSON.stringify(geoData).replace(/<\//g, "<\\/")}} 
-    const mapTilerApiKey = '#{mapTilerApiKey}';
+  include ../comps/geoDataInit.pug
   script(src="/public/scripts/mapLibreGL.js" defer)
-  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css")
-  script(src='https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js')
-  
-  
+  link(rel="stylesheet" href="/public/styles/rangeInput.css")
+
 block content
-  a(href='/posts') All posts
+  a.my-3.button.is-link(href='/posts') All posts
   .post
-    <div id='map' style='width: 100%; height: 300px;'></div>
+    #map(style='width: 100%; height: 300px;')
     .card
-      div(id="carousel" class="carousel" style='width: 70%;')
-        each image, index in post.images
-          figure(class=`item-${index} image is-4by3` )
-            img(style="object-fit: cover" src=image.url, alt=post.title+"image")
-      h1=post.title 
-      p=post.description
-    if currentUser && (currentUser.id === post.author)
-      form(class="hide", action="/posts/"+post.id+"?_method=PATCH", method="POST")
-        input(type="text", name="title", value=post.title)
-        input(type="text", name="description",value=post.description)
-        input(type="number", name="price",value=post.price)
-        input(type="text", name="location[properties][name]",value=post.location.properties.name)
-        input(type="number", name="location[geometry][coordinates][]",value=post.location.geometry.coordinates[0])
-        input(type="number",name="location[geometry][coordinates][]",value=post.location.geometry.coordinates[1])
-        button(type="submit") Edit
-      
-      form(action="/posts/"+post.id+"?_method=DELETE", method="POST")
-        button(type="submit") Delete
+      .glide
+        .glide__track(data-glide-el='track')
+          ul.glide__slides
+            each image, index in post.images
+              li.glide__slide(style='height: 300px;')
+                figure(class=`image is-1by1` id=`item-${index}`)
+                  img(style="object-fit: cover; height: 300px;" src=image.url, alt=post.title+"image")
+            else
+              li.glide__slide(style='height: 300px;')
+                figure(class=`image is-1by1` id=`item-${index}`)
+                  img(style="object-fit: contain; height: 300px;" src="/public/no-image.png")
+        .glide__arrows(data-glide-el='controls')
+          button.slider__arrow.slider__arrow--prev.glide__arrow.glide__arrow--prev(data-glide-dir='<' style='left: 1.5rem;background-color:white;')
+            svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24')
+              path(d='M0 12l10.975 11 2.848-2.828-6.176-6.176H24v-3.992H7.646l6.176-6.176L10.975 1 0 12z')
+          button.slider__arrow.slider__arrow--next.glide__arrow.glide__arrow--next(data-glide-dir='>' style='right: 1.5rem;background-color:white;')
+            svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24')
+              path(d='M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z')
+      .card-content
+        h1.is-size-1=post.title 
+        p.is-size-3=post.description
+    if currentUser && (currentUser.id == post.author.id)
+      button.button.is-info.js-modal-trigger.my-3(data-target='modal-js-options-post')
+        strong="Edit or Delete Post"
   .reviews 
     if currentUser
-      form(class="hide", action="/posts/"+post.id+"/reviews", method="POST")
-        input(type="textarea", name="details", value=post.details)
-        input(type="range", min=1, max=5, name="rating",value=post.rating)
-        button(type="submit") Submit Review
+      h3.p-3.is-size-4="Write a review!"
+      form.p-3(class="hide" action="/posts/"+post.id+"/reviews" method="POST")
+        textarea.textarea.is-primary(placeholder='Write a review' name="details")     
+        .tooltip  
+          span.tooltiptext='Drag to score this out of 1-5' 
+          input.custom-range(type="range" min=1, max=5, name="rating",value=post.rating)
+        button(class="button is-primary" type="submit") Submit Review
     each review in reviews
-      .review.card
-        h3.card-header=review.author.email 
+      .review.card(style="border: 3px solid black; margin-block: 2em")
         .card-content
-          p=review.rating 
-          p=review.details
+          h3.has-text-primary.is-size-4='Rating ' + review.rating + ' out of 5' 
+          h2.is-size-5='Given by ' + review.author.username
+          p.is-size-6=review.details
         if currentUser && review.author.id === currentUser.id
-          form(class="hide", action="/posts/"+post.id+"/reviews/"+review.id+"?_method=DELETE", method="POST")
-            button(type="submit") Delete Review
-          form(class="hide", action="/posts/"+post.id+"/reviews/"+review.id+"?_method=PATCH", method="POST")
-            input(type="textarea", name="details", value=review.details)
-            input(type="range", min=1, max=5, name="rating",step=1, value=review.rating)     
-            button(type="submit") Edit
-  script(defer="true").
-    bulmaCarousel.attach('#carousel', {
-          slidesToScroll: 1,
-          slidesToShow: 1
-        });    
-  
-    
+          form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=DELETE" method="POST")
+            button.button.is-danger.my-3(type="submit") Delete Review
+          form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=PATCH" method="POST")
+            textarea.textarea.is-primary.my-3(placeholder='Write a review' name="details"  value=review.details)
+            input.custom-range.my-3(type="range" min=1, max=5, name="rating",value=review.rating)     
+            button.button.is-warning.my-3(type="submit") Edit
+        script(src="/public/scripts/showPageGlider.js" defer)
+  include postOptionsForm
