@@ -11,45 +11,17 @@ mixin navbar(currentUser)
       .navbar-start
         a.navbar-item
           Home
-        //- a.navbar-item.
-          
-        //-   Documentation
-          
-        //- .navbar-item.has-dropdown.is-hoverable
-        //-   a.navbar-link.
-            
-        //-     More
-            
-        //-   .navbar-dropdown
-        //-     a.navbar-item.
-              
-        //-       About
-              
-        //-     a.navbar-item.
-              
-        //-       Jobs
-              
-        //-     a.navbar-item.
-              
-        //-       Contact
-              
-        //-     hr.navbar-divider
-        //-     a.navbar-item.
-              
-        //-       Report an issue
-              
       .navbar-end
         .navbar-item
           .buttons
             if currentUser
               a.button.is-primary.js-modal-trigger(data-target='modal-js-new-post')
                 strong New Post
-              p.mx-3 #{currentUser.username} 
-              form(action="/users/logout", method="post") 
+              button.button.mx-2.mr-3.rainbow-box Welcome, #{currentUser.username} 
+              form(action="/users/logout" method="post") 
                 button.button.is-danger(type="submit") Logout
             else
               include ./comps/googleButton
               a.button.is-primary.js-modal-trigger(data-target='modal-js-register')
                 strong Sign up
               a.button.is-light.js-modal-trigger(data-target='modal-js-login') Login
-              
