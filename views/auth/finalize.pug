@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+    h1.is-size-3.my-3="Choose a username and password to finish registration :D"
+    form(action="/users/oauth/finalize" method="post")
+        .field
+            p.control.has-icons-left.has-icons-right
+                input.input(type='text' placeholder='Username' name='username')
+                span.icon.is-small.is-left
+                    i.fas.fa-user
+                span.icon.is-small.is-right
+                    i.fas.fa-check
+        .field
+            p.control.has-icons-left
+                input.input(type='password' placeholder='Password' name='password')
+                span.icon.is-small.is-left
+                    i.fas.fa-lock
+        .field
+            p.control
+                button.button.is-success.
+                    Confirm
