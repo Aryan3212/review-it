@@ -70,7 +70,7 @@ const updatePostService = async ({
 };
 
 const deletePostService = async ({ id }) => {
-    return await PostModel.findByIdAndRemove(id);
+    return await PostModel.findByIdAndDelete(id);
 };
 
 const allPostsService = async (populateFields = []) => {
