@@ -66,6 +66,40 @@ document.addEventListener('DOMContentLoaded', () => {
             $target.classList.toggle('is-active');
         });
     });
+    // Select the button
+    (function () {
+        const btn = document.querySelector('#dark-mode-icon');
+        // Select the stylesheet <link>
+        const theme = document.querySelector('#dark-theme-link');
+        function setLightTheme() {
+            theme.href = '';
+            btn.firstChild.classList.remove('fa-sun');
+            btn.firstChild.classList.add('fa-moon');
+        }
+        function setDarkTheme() {
+            theme.href = '/public/styles/dark-mode.css';
+            btn.firstChild.classList.remove('fa-moon');
+            btn.firstChild.classList.add('fa-sun');
+        }
+        if (window.matchMedia) {
+            window
+                .matchMedia('(prefers-color-scheme: dark)')
+                .addEventListener('change', (event) => {
+                    event.matches ? setDarkTheme() : setLightTheme();
+                });
+            // window.matchMedia('(prefers-color-scheme: dark)').emit('change');
+            window.matchMedia('(prefers-color-scheme: dark)')
+                ? setDarkTheme()
+                : setLightTheme;
+        } else {
+            setLightTheme();
+        }
+        btn.addEventListener('click', function () {
+            theme.getAttribute('href') === '/public/styles/dark-mode.css'
+                ? setLightTheme()
+                : setDarkTheme();
+        });
+    })();
 });
 
 function del(e) {
@@ -103,4 +137,16 @@ function setLongLatOnForm(lng, lat, form) {
             form.name.value = data.features && data.features[0].place_name;
         })
         .catch(() => {});
+}
+
+function openAdjacentForm(e) {
+    e.style.display = 'none';
+    e.nextSibling.style.display = 'block';
+    e.parentElement.nextSibling.style.display = 'block';
+    e.parentElement.nextSibling.scrollIntoView();
+}
+function closeAdjacentForm(e) {
+    e.style.display = 'none';
+    e.previousSibling.style.display = 'block';
+    e.parentElement.nextSibling.style.display = 'none';
 }
