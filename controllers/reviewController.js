@@ -19,7 +19,7 @@ const createReview = async (req, res) => {
 
 const deleteReview = async (req, res) => {
     const { id, post_id } = req.params;
-    await deleteReviewService(id);
+    await deleteReviewService({ id });
     return res.redirect(`/posts/${post_id}`);
 };
 
