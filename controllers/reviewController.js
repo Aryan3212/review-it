@@ -8,26 +8,26 @@ const createReview = async (req, res) => {
     const { details, rating } = req.body;
     const { post_id: post } = req.params;
     const author = req.user.id;
-    const createdReview = await createReviewService({
+    await createReviewService({
         details,
         rating,
         author,
         post
     });
-    return res.redirect(`/posts/${createdReview.post}`);
+    return res.redirect(`/posts/${post}`);
 };
 
 const deleteReview = async (req, res) => {
-    const { id } = req.params;
-    const deletingPost = await deleteReviewService(id);
-    return res.redirect(`/posts/${deletingPost.post}`);
+    const { id, post_id } = req.params;
+    await deleteReviewService(id);
+    return res.redirect(`/posts/${post_id}`);
 };
 
 const updateReview = async (req, res) => {
-    const { id } = req.params;
+    const { id, post_id } = req.params;
     const { details, rating } = req.body;
-    const updatedReview = updateReviewService({ details, rating, id });
-    return res.redirect(`/posts/${updatedReview.post}`);
+    await updateReviewService({ details, rating, id });
+    return res.redirect(`/posts/${post_id}`);
 };
 module.exports = {
     createReview,
