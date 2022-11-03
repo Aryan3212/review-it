@@ -1,4 +1,5 @@
 .rainbow-box {
+  box-sizing: content-box;
   border: 5px solid transparent;
   border-image: linear-gradient(
     to bottom right,
@@ -10,8 +11,40 @@
   );
   border-image-slice: 1;
 }
+.modal-background {
+  position: fixed;
+}
+.review.card {
+  border: 2px solid black;
+  margin-block: 2em;
+}
+#dark-mode-icon {
+  position: fixed;
+  top: 5rem;
+  right: 3rem;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 10;
+  border: 1px solid black;
+  animation: breathe 1s infinite alternate-reverse;
+}
+#dark-mode-icon:hover {
+  opacity: 0.5;
+}
+@keyframes breathe {
+  0%   {opacity: 1; scale: 1;}
+  100% {opacity: 0.8;scale: 1.1;}
+}
 
-@media (max-width: 397px){
+.subtitle{
+  line-height: 2.5;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 432px){
   #userboxdesktop {
     display: flex !important;
   }
