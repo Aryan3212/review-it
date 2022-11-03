@@ -5,11 +5,13 @@ const optionsPostMap = new maplibregl.Map({
     center: [90.4125, 23.8103],
     zoom: 10,
     attributionControl: false
-}).addControl(
-    new maplibregl.AttributionControl({
-        compact: true
-    })
-);
+})
+    .addControl(
+        new maplibregl.AttributionControl({
+            compact: true
+        })
+    )
+    .addControl(new maplibregl.NavigationControl(), 'top-left');
 
 const optionMarker = new maplibregl.Marker({
     draggable: true

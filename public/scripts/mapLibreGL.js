@@ -7,11 +7,14 @@ let map = new maplibregl.Map({
             : data.features[0].geometry.coordinates,
     zoom: 10,
     attributionControl: false
-}).addControl(
-    new maplibregl.AttributionControl({
-        compact: true
-    })
-);
+})
+    .addControl(
+        new maplibregl.AttributionControl({
+            compact: true
+        })
+    )
+    .addControl(new maplibregl.NavigationControl(), 'top-left')
+;
 
 map.on('load', function () {
     // Add a new source from our GeoJSON data and
