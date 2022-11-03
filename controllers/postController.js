@@ -11,7 +11,7 @@ const { processUploadedImageFiles } = require('../utils');
 
 const listPosts = async (req, res) => {
     const user = req.user;
-    const posts = await allPostsService();
+    const posts = await allPostsService(['author']);
     const geoData = filterGeolocationDataService(posts);
     res.status(200).render('posts/list', {
         title: 'Posts',
