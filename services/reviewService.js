@@ -1,22 +1,22 @@
-const { ReviewModel } = require('../models/ReviewModel');
-
+const { ReviewModel } = require('../models/reviewModel');
+const ObjectId = require('mongodb').ObjectId;
 const createReviewService = async ({ details, rating, author, post }) => {
     const newReview = new ReviewModel({
-        details,
+        details: details.trim(),
         rating,
-        author,
-        post
+        author: ObjectId(author),
+        post: ObjectId(post)
     });
     return await newReview.save();
 };
 
 const deleteReviewService = async ({ id }) => {
-    return await ReviewModel.findByIdAndRemove(id);
+    return await ReviewModel.findByIdAndDelete(id);
 };
 
 const updateReviewService = async ({ details, rating, id }) => {
     const reviewToBeUpdated = await ReviewModel.findById(id);
-    reviewToBeUpdated.details = details || reviewToBeUpdated.details;
+    reviewToBeUpdated.details = details.trim() || reviewToBeUpdated.details;
     reviewToBeUpdated.rating = rating || reviewToBeUpdated.rating;
     return await reviewToBeUpdated.save();
 };
