@@ -1,9 +1,14 @@
 let map = new maplibregl.Map({
     container: 'map',
     style: `https://api.maptiler.com/maps/streets/style.json?key=${mapTilerApiKey}`,
-    center: data.features[0].geometry.coordinates,
-    zoom: 9
-});
+    center: [90.36864, 23.83747],
+    zoom: 10,
+    attributionControl: false
+}).addControl(
+    new maplibregl.AttributionControl({
+        compact: true
+    })
+);
 
 map.on('load', function () {
     // Add a new source from our GeoJSON data and
@@ -142,7 +147,4 @@ map.on('load', function () {
     geoLocate.on('error', function () {
         console.log('An error event has occurred.');
     });
-    if (data.features.length > 1) {
-        geoLocate.trigger();
-    }
 });

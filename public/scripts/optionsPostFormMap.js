@@ -3,8 +3,13 @@ const optionsPostMap = new maplibregl.Map({
     container: 'option-post-map',
     style: `https://api.maptiler.com/maps/streets/style.json?key=${mapTilerApiKey}`,
     center: [90.4125, 23.8103],
-    zoom: 10
-});
+    zoom: 10,
+    attributionControl: false
+}).addControl(
+    new maplibregl.AttributionControl({
+        compact: true
+    })
+);
 
 const optionMarker = new maplibregl.Marker({
     draggable: true
@@ -28,9 +33,9 @@ let optsGeoLocate = new maplibregl.GeolocateControl({
     }
 });
 optionsPostMap.addControl(optsGeoLocate);
-optionsPostMap.on('load', function () {
-    optsGeoLocate.trigger();
-});
+// optionsPostMap.on('load', function () {
+//     optsGeoLocate.trigger();
+// });
 optsGeoLocate.on('geolocate', function (data) {
     const { longitude, latitude } = data.coords;
     setLongLatOnForm(longitude, latitude, optionsForm);
