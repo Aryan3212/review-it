@@ -1,5 +1,5 @@
 const { PostModel } = require('../models/postModel');
-const { ReviewModel } = require('../models/ReviewModel');
+const { ReviewModel } = require('../models/reviewModel');
 // Backend validator
 const isPostAuthor = async (req, res, next) => {
   const { id } = req.params;

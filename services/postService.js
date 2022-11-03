@@ -1,5 +1,5 @@
 const { PostModel } = require('../models/postModel');
-const { ReviewModel } = require('../models/ReviewModel');
+const { ReviewModel } = require('../models/reviewModel');
 
 const filterGeolocationDataService = (posts) => {
     if (!Array.isArray(posts)) {
@@ -73,8 +73,8 @@ const deletePostService = async ({ id }) => {
     return await PostModel.findByIdAndRemove(id);
 };
 
-const allPostsService = async () => {
-    return await PostModel.find({});
+const allPostsService = async (populateFields = []) => {
+    return await PostModel.find({}).populate(populateFields);
 };
 
 const singlePostService = async (id, populateFields = []) => {

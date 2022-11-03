@@ -1,5 +1,5 @@
 const { PostModel } = require('../models/postModel');
-const { ReviewModel } = require('../models/ReviewModel');
+const { ReviewModel } = require('../models/reviewModel');
 
 const limitReviews = async (req, res, next) => {
   const currentUser = req.user;
