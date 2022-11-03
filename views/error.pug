@@ -1,6 +1,5 @@
 extends layout
 
 block content
-  div=err
-  h1='You seem to be lost!'
-      a(href="/posts")='go back'
+  h1.is-size-1='You seem to be lost!'
+  button.button.is-info(href="/posts")='Get Back?'
