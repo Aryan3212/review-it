@@ -1,7 +1,10 @@
 let map = new maplibregl.Map({
     container: 'map',
     style: `https://api.maptiler.com/maps/streets/style.json?key=${mapTilerApiKey}`,
-    center: [90.36864, 23.83747],
+    center:
+        data.features.length > 1
+            ? [90.36864, 23.83747]
+            : data.features[0].geometry.coordinates,
     zoom: 10,
     attributionControl: false
 }).addControl(
