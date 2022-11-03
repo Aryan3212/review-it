@@ -13,11 +13,33 @@ block content
     each post in posts
       .column.is-one-third
         div(class="card")
-          a(href='/posts/'+post.id)
-            div(class="card-image") 
-              figure(class="image is-4by3")
-                img(style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
-            div(class="card-content") 
-              h1=post.title 
-          div(class="card-content") 
-            p=post.description
+          if currentUser
+            a(href='/posts/'+ post.id)
+              div(class="card-image") 
+                figure(class="image is-4by3")
+                  img(style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
+            .card-content
+              .media
+                a(href='/posts/'+post.id).media-content
+                  p.title.is-4.is-6-mobile=post.title
+                  p.subtitle.is-6.is-7-mobile="By "
+                    span.rainbow-box.has-text-weight-semibold=post.author.username
+              if(post.description.length > 150)
+                .content #{post.description.substr(0,150)}...
+              else
+                .content=post.description
+          else
+            a(href='javascript:void(0);' class='js-modal-trigger' data-target='modal-js-login')
+              div(class="card-image") 
+                figure(class="image is-4by3")
+                  img(style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
+            .card-content
+              .media
+                a(href='javascript:void(0);' class='js-modal-trigger' data-target='modal-js-login').media-content
+                  p.title.is-4.is-6-mobile=post.title
+                  p.subtitle.is-6.is-7-mobile="By "
+                    span.rainbow-box.has-text-weight-semibold=post.author.username
+              if(post.description.length > 150)
+                .content #{post.description.substr(0,150)}...
+              else
+                .content=post.description
