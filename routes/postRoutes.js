@@ -31,7 +31,8 @@ const router = new Router();
 
 router
   .route('/:id')
-  .get(catchAsync(showPost))
+  .get(catchAsync(isAuthenticated),
+  catchAsync(isVerified),catchAsync(showPost))
   .patch(
     catchAsync(isAuthenticated),
     catchAsync(isVerified),
