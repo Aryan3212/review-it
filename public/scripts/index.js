@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add a click event on various child elements to close the parent modal
     (
         document.querySelectorAll(
-            '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button'
+            '.modal-background, .modal-close,.modal-alternate-action, .modal-card-head .delete, .modal-card-foot .button'
         ) || []
     ).forEach(($close) => {
         const $target = $close.closest('.modal');
@@ -150,3 +150,4 @@ function closeAdjacentForm(e) {
     e.previousSibling.style.display = 'block';
     e.parentElement.nextSibling.style.display = 'none';
 }
+
