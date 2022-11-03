@@ -2,7 +2,7 @@ const newPostForm = document.getElementById('new-post-form');
 const newPostMap = new maplibregl.Map({
     container: 'new-post-map',
     style: `https://api.maptiler.com/maps/streets/style.json?key=${mapTilerApiKey}`,
-    center: [90.36864, 23.83747],
+    center: [90.4125, 23.8103],
     zoom: 10,
     attributionControl: false
 }).addControl(
@@ -33,9 +33,7 @@ let newGeoLocate = new maplibregl.GeolocateControl({
     }
 });
 newPostMap.addControl(newGeoLocate);
-// newPostMap.on('load', function () {
-//     newGeoLocate.trigger();
-// });
+
 newGeoLocate.on('geolocate', function (data) {
     const { longitude, latitude } = data.coords;
     setLongLatOnForm(longitude, latitude, newPostForm);

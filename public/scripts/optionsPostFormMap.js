@@ -33,9 +33,7 @@ let optsGeoLocate = new maplibregl.GeolocateControl({
     }
 });
 optionsPostMap.addControl(optsGeoLocate);
-// optionsPostMap.on('load', function () {
-//     optsGeoLocate.trigger();
-// });
+
 optsGeoLocate.on('geolocate', function (data) {
     const { longitude, latitude } = data.coords;
     setLongLatOnForm(longitude, latitude, optionsForm);
