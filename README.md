@@ -20,7 +20,7 @@ You will also need to setup a few environment variables, shown below is a skelet
 SESSION_SECRET=
 
 // URL that connects to the MongoDB instance, can also point to remote instances.
-// The last part of the path `review_it` is the collection(database) name, you can change to your liking 
+// The last part of the path `review_it` is the collection(database) name, you can change to your liking
 
 DB_URL=mongodb://127.0.0.1:27017/review_it
 
@@ -49,10 +49,14 @@ MAPTILER_API_KEY=
 
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
+
+// Look inside emailVerificationService in the repo to get the gist
+EMAIL_VERIFICATION_ENABLED=
+EMAIL_VERIFICATION_API_BASE_URL=
+EMAIL_VERIFICATION_API_KEY=
 ```
 
-
-I'm planning on deploying this after I can put in safeguards in place so that people don't end up abusing my service provider. 
+I'm planning on deploying this after I can put in safeguards in place so that people don't end up abusing my service provider.
 
 The issues tab contains a running list of changes(closed Issues) and expected features.
 
