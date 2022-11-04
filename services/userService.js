@@ -5,7 +5,7 @@ const findUserService = async (query) => {
         query['_id'] = ObjectId(query.id);
         delete query.id;
     }
-    const userFound = await UserModel.where(query).findOne();
+    const userFound = await UserModel.findOne(query);
     return userFound;
 };
 
