@@ -100,6 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 : setDarkTheme();
         });
     })();
+    (function () {
+        const flashMessageBox = document.querySelector('.flash-messages');
+        flashMessageBox.addEventListener('animationend', () => {
+            flashMessageBox.style.display = 'none';
+        });
+    })();
 });
 
 function del(e) {
@@ -150,4 +156,3 @@ function closeAdjacentForm(e) {
     e.previousSibling.style.display = 'block';
     e.parentElement.nextSibling.style.display = 'none';
 }
-
