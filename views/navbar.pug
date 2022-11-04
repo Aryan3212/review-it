@@ -2,7 +2,7 @@ mixin navbar(currentUser)
   nav.navbar(role='navigation' aria-label='main navigation')
     .navbar-brand.is-justify-content-space-between
       a(href='/')
-        img(src='/public/kri.png' style='width: 70px; height: 70px; padding: 5px;')
+        img(src='/public/review-it.png' style='background:none;width: 70px; height: 70px; padding: 5px;')
       .is-flex.is-align-items-center
         if currentUser
           button.button.rainbow-box.is-hidden-desktop#userboxmobile Welcome, #{currentUser.username}
