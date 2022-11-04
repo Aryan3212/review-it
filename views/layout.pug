@@ -17,6 +17,7 @@ head
   link(href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet')
   link(href='/public/styles/index.css' rel='stylesheet')
   script(src='https://cdn.jsdelivr.net/npm/@glidejs/glide' defer)
+  script(src="/public/scripts/index.js")
   block scripts
   link(href='/public/styles/dark-mode.css' rel='stylesheet' id='dark-theme-link')
 body(class="container is-max-desktop px-3")
@@ -24,6 +25,7 @@ body(class="container is-max-desktop px-3")
     i.fas.fa-light.fa-moon
   +navbar(currentUser)
   block content
+  include ./comps/flashMessage.pug
   if !currentUser
     #modal-js-login.modal
       .modal-background
@@ -32,22 +34,23 @@ body(class="container is-max-desktop px-3")
           form(action="/users/login" method="post")
             .field
               p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Username' name='username')
+                input.input(type='text' placeholder='Username' name='username' required)
                 span.icon.is-small.is-left
                   i.fas.fa-user
                 span.icon.is-small.is-right
                   i.fas.fa-check
             .field
               p.control.has-icons-left
-                input.input(type='password' placeholder='Password' name='password')
+                input.input(type='password' placeholder='Password' name='password' required)
                 span.icon.is-small.is-left
                   i.fas.fa-lock
             .field
               p.control
                 button.button.is-success.
                   Login
-            a.button.modal-alternate-action.is-primary.js-modal-trigger(data-target='modal-js-register')
+            a.button.modal-alternate-action.is-primary.js-modal-trigger.mr-2(data-target='modal-js-register')
                 strong I Wanna Sign Up 
+            include ./comps/googleButton
       button.modal-close.is-large(aria-label='close')
       
     #modal-js-register.modal
@@ -57,29 +60,30 @@ body(class="container is-max-desktop px-3")
           form(action="/users/register" method="post")
             .field
               p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Email' name='email')
+                input.input(type='text' placeholder='Email' name='email' required)
                 span.icon.is-small.is-left
                   i.fas.fa-envelope
                 span.icon.is-small.is-right
                   i.fas.fa-check
             .field
               p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Username' name='username')
+                input.input(type='text' placeholder='Username' name='username' required)
                 span.icon.is-small.is-left
                   i.fas.fa-user
                 span.icon.is-small.is-right
                   i.fas.fa-check
             .field
               p.control.has-icons-left
-                input.input(type='password' placeholder='Password' name='password')
+                input.input(type='password' placeholder='Password' name='password' required)
                 span.icon.is-small.is-left
                   i.fas.fa-lock
             .field
               p.control
                 button.button.is-success.
                   Register
-            a.button.is-warning.modal-alternate-action.js-modal-trigger(data-target='modal-js-login')
+            a.button.is-warning.modal-alternate-action.js-modal-trigger.mr-2(data-target='modal-js-login')
               strong Login Instead
+            include ./comps/googleButton
       button.modal-close.is-large(aria-label='close')
   else
     include createPostForm
