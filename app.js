@@ -12,7 +12,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const ExpressMongoSanitize = require('express-mongo-sanitize');
-
+const flash = require('connect-flash');
 const app = express();
 app.disable('x-powered-by');
 app.set('view engine', 'pug');
@@ -43,6 +43,7 @@ if (process.env.NODE_ENV === 'production') {
     sessionOpts.cookie.secure = true; // serve secure cookies
 }
 app.use(session(sessionOpts));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 

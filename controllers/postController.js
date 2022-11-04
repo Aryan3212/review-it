@@ -13,12 +13,16 @@ const listPosts = async (req, res) => {
     const user = req.user;
     const posts = await allPostsService(['author']);
     const geoData = filterGeolocationDataService(posts);
+    const successFlash = req.flash('success')[0];
+    const errorFlash = req.flash('error')[0];
     res.status(200).render('posts/list', {
         title: 'Posts',
         posts,
-        currentUser: user,
+        currentUser: user && user.verified ? user : null,
         geoData,
-        mapTilerApiKey: process.env.MAPTILER_API_KEY
+        mapTilerApiKey: process.env.MAPTILER_API_KEY,
+        success: successFlash,
+        error: errorFlash
     });
 };
 
@@ -28,13 +32,17 @@ const showPost = async (req, res) => {
     const post = await singlePostService(id, ['author']);
     const geoData = filterGeolocationDataService(post);
     const reviews = await postReviewsService(id);
+    const successFlash = req.flash('success')[0];
+    const errorFlash = req.flash('error')[0];
     res.status(200).render('posts/show', {
         title: post.title,
         post,
         reviews,
-        currentUser: user,
+        currentUser: user && user.verified ? user : null,
         geoData,
-        mapTilerApiKey: process.env.MAPTILER_API_KEY
+        mapTilerApiKey: process.env.MAPTILER_API_KEY,
+        success: successFlash,
+        error: errorFlash
     });
 };
 
@@ -52,12 +60,14 @@ const createPost = async (req, res) => {
         images,
         author
     });
+    req.flash('success', `${title} created. Users can Review-it 😼!`);
     res.redirect(`/posts/${newPost.id}`);
 };
 
 const deletePost = async (req, res) => {
     const { id } = req.params;
     await deletePostService({ id });
+    req.flash('success', `Post deleted 😼!`);
     res.redirect('/posts');
 };
 
@@ -76,6 +86,7 @@ const updatePost = async (req, res) => {
         images
     };
     const updatedPost = await updatePostService(updateFields);
+    req.flash('success', `Post updated 😼!`);
     res.status(204).redirect(`/posts/${updatedPost.id}`);
 };
 module.exports = {
