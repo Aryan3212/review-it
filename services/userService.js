@@ -9,9 +9,9 @@ const findUserService = async (query) => {
     return userFound;
 };
 
-const registerUserService = async ({ username, email }) => {
+const registerUserService = async ({ username, email, password }) => {
     const userToBeRegistered = new UserModel({ username, email });
-    return await UserModel.register(newUser, password);
+    return await UserModel.register(userToBeRegistered, password);
 };
 const loginUserService = async ({ username, password }) => {
     const authenticate = await UserModel.authenticate();
