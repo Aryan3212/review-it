@@ -62,7 +62,7 @@ const updatePostService = async ({
     toBeUpdatedPost.location.geometry.coordinates[1] =
         latitude || toBeUpdatedPost.location.geometry.coordinates[1];
     toBeUpdatedPost.location.properties.name =
-        name || toBeUpdatedPost.location.geometry.properties.name;
+        name || toBeUpdatedPost.location.properties.name;
     toBeUpdatedPost.images =
         images.length > 1 ? images : toBeUpdatedPost.images;
     const updatedPost = await toBeUpdatedPost.save();
