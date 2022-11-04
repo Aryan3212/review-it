@@ -5,30 +5,30 @@
       form(action="/posts" method="post" enctype="multipart/form-data")#new-post-form
         .field
           p.control.has-icons-left.has-icons-right
-            input.input(type="text" name="title" placeholder="Title")
+            input.input(type="text" name="title" placeholder="Title" required)
             span.icon.is-small.is-left
               i.fas.fa-info
             span.icon.is-small.is-right
               i.fas.fa-check
         .field
           p.control.has-icons-left.has-icons-right
-            input.input(type="text" name="description" placeholder="Description")
+            input.input(type="text" name="description" placeholder="Description" required)
             span.icon.is-small.is-left
               i.fas.fa-book
             span.icon.is-small.is-right
               i.fas.fa-check
         .field
           p.control.has-icons-left.has-icons-right
-            input.input(type="text" name="name" placeholder="Location Name")
+            input.input(type="text" name="name" placeholder="Location Name" required)
             span.icon.is-small.is-left
               i.fas.fa-map-location
             span.icon.is-small.is-right
               i.fas.fa-check
-        .field
-          p.control.has-icons-left
-            input.input(type="number" name="price" placeholder="Price" step="any")
-            span.icon.is-small.is-left
-              i.fas.fa-dollar-sign
+        //- .field
+        //-   p.control.has-icons-left
+        //-     input.input(type="number" name="price" placeholder="Price" step="any")
+        //-     span.icon.is-small.is-left
+        //-       i.fas.fa-dollar-sign
         .field
           p.control.has-icons-left
             input.input(type="file" name="images", multiple)
