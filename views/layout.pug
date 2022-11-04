@@ -2,88 +2,88 @@ include navbar
 
 doctype html
 head
-  title #{title}
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width,initial-scale=1')
-  link(rel='apple-touch-icon' sizes='180x180' href='public/apple-touch-icon.png')
-  link(rel='icon' type='image/png' sizes='32x32' href='public/favicon-32x32.png')
-  link(rel='icon' type='image/png' sizes='16x16' href='public/favicon-16x16.png')
-  link(rel='manifest' href='/public/site.webmanifest')
-  link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css')
-  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.core.min.css' integrity='sha512-YQlbvfX5C6Ym6fTUSZ9GZpyB3F92hmQAZTO5YjciedwAaGRI9ccNs4iw2QTCJiSPheUQZomZKHQtuwbHkA9lgw==' crossorigin='anonymous' referrerpolicy='no-referrer')
-  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.theme.min.css' integrity='sha512-wCwx+DYp8LDIaTem/rpXubV/C1WiNRsEVqoztV0NZm8tiTvsUeSlA/Uz02VTGSiqfzAHD4RnqVoevMcRZgYEcQ==' crossorigin='anonymous' referrerpolicy='no-referrer')  
-  script(src='https://kit.fontawesome.com/b5edcae973.js' crossorigin='anonymous')
-  script(src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js' )
-  link(href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet')
-  link(href='/public/styles/index.css' rel='stylesheet')
-  script(src='https://cdn.jsdelivr.net/npm/@glidejs/glide' defer)
-  script(src="/public/scripts/index.js")
-  block scripts
-  link(href='/public/styles/dark-mode.css' rel='stylesheet' id='dark-theme-link')
+    title #{title}
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    link(rel='apple-touch-icon' sizes='180x180' href='public/apple-touch-icon.png')
+    link(rel='icon' type='image/png' sizes='32x32' href='public/favicon-32x32.png')
+    link(rel='icon' type='image/png' sizes='16x16' href='public/favicon-16x16.png')
+    link(rel='manifest' href='/public/site.webmanifest')
+    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.core.min.css' integrity='sha512-YQlbvfX5C6Ym6fTUSZ9GZpyB3F92hmQAZTO5YjciedwAaGRI9ccNs4iw2QTCJiSPheUQZomZKHQtuwbHkA9lgw==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.theme.min.css' integrity='sha512-wCwx+DYp8LDIaTem/rpXubV/C1WiNRsEVqoztV0NZm8tiTvsUeSlA/Uz02VTGSiqfzAHD4RnqVoevMcRZgYEcQ==' crossorigin='anonymous' referrerpolicy='no-referrer')  
+    script(src='https://cdn.jsdelivr.net/npm/@glidejs/glide' defer)
+    script(src='https://kit.fontawesome.com/b5edcae973.js' crossorigin='anonymous')
+    script(src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js' crossorigin="anonymous" referrerpolicy='no-referrer')
+    link(href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' crossorigin="anonymous" referrerpolicy='no-referrer')
+    link(href='/public/styles/index.css' rel='stylesheet')
+    script(src="/public/scripts/index.js")
+    block scripts
+    link(href='/public/styles/dark-mode.css' rel='stylesheet' id='dark-theme-link')
 body(class="container is-max-desktop px-3")
-  span.icon.is-medium.my-3#dark-mode-icon
-    i.fas.fa-light.fa-moon
-  +navbar(currentUser)
-  block content
-  include ./comps/flashMessage.pug
-  if !currentUser
-    #modal-js-login.modal
-      .modal-background
-      .modal-content
-        .box
-          form(action="/users/login" method="post")
-            .field
-              p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Username' name='username' required)
-                span.icon.is-small.is-left
-                  i.fas.fa-user
-                span.icon.is-small.is-right
-                  i.fas.fa-check
-            .field
-              p.control.has-icons-left
-                input.input(type='password' placeholder='Password' name='password' required)
-                span.icon.is-small.is-left
-                  i.fas.fa-lock
-            .field
-              p.control
-                button.button.is-success.
-                  Login
-            a.button.modal-alternate-action.is-primary.js-modal-trigger.mr-2(data-target='modal-js-register')
-                strong I Wanna Sign Up 
-            include ./comps/googleButton
-      button.modal-close.is-large(aria-label='close')
-      
-    #modal-js-register.modal
-      .modal-background
-      .modal-content
-        .box
-          form(action="/users/register" method="post")
-            .field
-              p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Email' name='email' required)
-                span.icon.is-small.is-left
-                  i.fas.fa-envelope
-                span.icon.is-small.is-right
-                  i.fas.fa-check
-            .field
-              p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Username' name='username' required)
-                span.icon.is-small.is-left
-                  i.fas.fa-user
-                span.icon.is-small.is-right
-                  i.fas.fa-check
-            .field
-              p.control.has-icons-left
-                input.input(type='password' placeholder='Password' name='password' required)
-                span.icon.is-small.is-left
-                  i.fas.fa-lock
-            .field
-              p.control
-                button.button.is-success.
-                  Register
-            a.button.is-warning.modal-alternate-action.js-modal-trigger.mr-2(data-target='modal-js-login')
-              strong Login Instead
-            include ./comps/googleButton
-      button.modal-close.is-large(aria-label='close')
-  else
-    include createPostForm
+    span.icon.is-medium.my-3#dark-mode-icon
+        i.fas.fa-light.fa-moon
+    +navbar(currentUser)
+    block content
+    include ./comps/flashMessage.pug
+    if !currentUser
+        #modal-js-login.modal
+            .modal-background
+            .modal-content
+                .box
+                    form(action="/users/login" method="post")
+                        .field
+                            p.control.has-icons-left.has-icons-right
+                                input.input(type='text' placeholder='Username' name='username' required)
+                                span.icon.is-small.is-left
+                                    i.fas.fa-user
+                                span.icon.is-small.is-right
+                                    i.fas.fa-check
+                        .field
+                            p.control.has-icons-left
+                                input.input(type='password' placeholder='Password' name='password' required)
+                                span.icon.is-small.is-left
+                                    i.fas.fa-lock
+                        .field
+                            p.control
+                                button.button.is-success.
+                                    Login
+                        a.button.modal-alternate-action.is-primary.js-modal-trigger.mr-2(data-target='modal-js-register')
+                            strong I Wanna Sign Up 
+                        include ./comps/googleButton
+            button.modal-close.is-large(aria-label='close')
+
+        #modal-js-register.modal
+            .modal-background
+            .modal-content
+                .box
+                    form(action="/users/register" method="post")
+                        .field
+                            p.control.has-icons-left.has-icons-right
+                                input.input(type='text' placeholder='Email' name='email' required)
+                                span.icon.is-small.is-left
+                                    i.fas.fa-envelope
+                                span.icon.is-small.is-right
+                                    i.fas.fa-check
+                        .field
+                            p.control.has-icons-left.has-icons-right
+                                input.input(type='text' placeholder='Username' name='username' required)
+                                span.icon.is-small.is-left
+                                    i.fas.fa-user
+                                span.icon.is-small.is-right
+                                    i.fas.fa-check
+                        .field
+                            p.control.has-icons-left
+                                input.input(type='password' placeholder='Password' name='password' required)
+                                span.icon.is-small.is-left
+                                    i.fas.fa-lock
+                        .field
+                            p.control
+                                button.button.is-success.
+                                    Register
+                        a.button.is-warning.modal-alternate-action.js-modal-trigger.mr-2(data-target='modal-js-login')
+                            strong Login Instead
+                        include ./comps/googleButton
+            button.modal-close.is-large(aria-label='close')
+    else
+        include createPostForm

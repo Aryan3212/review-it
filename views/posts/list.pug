@@ -1,44 +1,44 @@
 extends ../layout
 
 block scripts 
-  include ../comps/geoDataInit.pug
-  script(src="/public/scripts/mapLibreGL.js" defer)
+    include ../comps/geoDataInit.pug
+    script(src="/public/scripts/mapLibreGL.js" defer)
 
 block content
-  h1.heading.is-size-1 Review-it
-  h2.heading.is-size-6 A place to get reviews on anything that matters! (or not!)
-  <div id='map' style='width: 100%; height: 300px;'></div>
-  .columns.my-5.is-multiline.is-3
-    each post in posts
-      .column.is-one-third
-        div(class="card")
-          if currentUser
-            a(href='/posts/'+ post.id)
-              div(class="card-image") 
-                figure(class="image is-4by3")
-                  img(style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
-            .card-content
-              .media
-                a(href='/posts/'+post.id).media-content
-                  p.title.is-4.is-6-mobile=post.title
-                  p.subtitle.is-6.is-7-mobile="By "
-                    span.rainbow-box.has-text-weight-semibold=post.author.username
-              if(post.description.length > 150)
-                .content #{post.description.substr(0,150)}...
-              else
-                .content=post.description
-          else
-            a(href='javascript:void(0);' class='js-modal-trigger' data-target='modal-js-login')
-              div(class="card-image") 
-                figure(class="image is-4by3")
-                  img(style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
-            .card-content
-              .media
-                a(href='javascript:void(0);' class='js-modal-trigger' data-target='modal-js-login').media-content
-                  p.title.is-4.is-6-mobile=post.title
-                  p.subtitle.is-6.is-7-mobile="By "
-                    span.rainbow-box.has-text-weight-semibold=post.author.username
-              if(post.description.length > 150)
-                .content #{post.description.substr(0,150)}...
-              else
-                .content=post.description
+    h1.heading.is-size-1 Review-it
+    h2.heading.is-size-6 A place to get reviews on anything that matters! (or not!)
+    <div id='map' style='width: 100%; height: 300px;'></div>
+    .columns.my-5.is-multiline.is-3
+        each post in posts
+            .column.is-one-third
+                div(class="card")
+                    if currentUser
+                        a(href='/posts/'+ post.id)
+                            div(class="card-image") 
+                                figure(class="image is-4by3")
+                                    img(crossorigin style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
+                        .card-content
+                            .media
+                                a(href='/posts/'+post.id).media-content
+                                    p.title.is-4.is-6-mobile=post.title
+                                    p.subtitle.is-6.is-7-mobile="By "
+                                        span.rainbow-box.has-text-weight-semibold=post.author.username
+                            if(post.description.length > 150)
+                                .content #{post.description.substr(0,150)}...
+                            else
+                                .content=post.description
+                    else
+                        a(href='javascript:void(0);' class='js-modal-trigger' data-target='modal-js-login')
+                            div(class="card-image") 
+                                figure(class="image is-4by3")
+                                    img(crossorigin style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
+                        .card-content
+                            .media
+                                a(href='javascript:void(0);' class='js-modal-trigger' data-target='modal-js-login').media-content
+                                    p.title.is-4.is-6-mobile=post.title
+                                    p.subtitle.is-6.is-7-mobile="By "
+                                        span.rainbow-box.has-text-weight-semibold=post.author.username
+                            if(post.description.length > 150)
+                                .content #{post.description.substr(0,150)}...
+                            else
+                                .content=post.description

@@ -1,68 +1,68 @@
 extends ../layout
 
 block scripts
-  include ../comps/geoDataInit.pug
-  script(src="/public/scripts/mapLibreGL.js" defer)
-  link(rel="stylesheet" href="/public/styles/rangeInput.css")
+    include ../comps/geoDataInit.pug
+    script(src="/public/scripts/mapLibreGL.js" defer)
+    link(rel="stylesheet" href="/public/styles/rangeInput.css")
 
 block content
-  a.my-3.button.is-link(href='/posts') All posts
-  .post
-    #map(style='width: 100%; height: 300px;')
-    .card
-      .glide
-        .glide__track(data-glide-el='track')
-          ul.glide__slides
-            each image, index in post.images
-              li.glide__slide(style='height: 300px;')
-                figure(class=`image is-1by1` id=`item-${index}`)
-                  img(style="object-fit: cover; height: 300px;" src=image.url, alt=post.title+"image")
-            else
-              li.glide__slide(style='height: 300px;')
-                figure(class=`image is-1by1` id=`item-${index}`)
-                  img(style="object-fit: contain; height: 300px;" src="/public/no-image.png")
-        .glide__arrows(data-glide-el='controls')
-          button.slider__arrow.slider__arrow--prev.glide__arrow.glide__arrow--prev(data-glide-dir='<' style='left: 1.5rem;background-color:white;')
-            svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24')
-              path(d='M0 12l10.975 11 2.848-2.828-6.176-6.176H24v-3.992H7.646l6.176-6.176L10.975 1 0 12z')
-          button.slider__arrow.slider__arrow--next.glide__arrow.glide__arrow--next(data-glide-dir='>' style='right: 1.5rem;background-color:white;')
-            svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24')
-              path(d='M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z')
-      .card-content
-        .media
-          .media-content
-            p.title.is-3.is-5-mobile=post.title
-            p.subtitle.is-5.is-6-mobile="By "
-              span.rainbow-box.has-text-weight-semibold=post.author.username
-        .content.is-5.is-6-mobile=post.description
-    if currentUser && (currentUser.id == post.author.id)
-      button.button.is-info.js-modal-trigger.my-3(data-target='modal-js-options-post')
-        strong="Edit or Delete Post"
-  .reviews 
-    if currentUser
-      h3.p-3.is-size-4="Write a review!"
-      form.p-3(class="hide" action="/posts/"+post.id+"/reviews" method="POST")
-        textarea.textarea.is-primary(placeholder='Write a review' name="details")     
-        .tooltip  
-          span.tooltiptext='Drag to score this out of 1-5' 
-          input.custom-range(type="range" min=1, max=5, name="rating",value=post.rating)
-        button(class="button is-primary" type="submit") Submit Review
-    each review in reviews
-      .review.card
-        .card-content
-          h3.has-text-primary.is-size-4.is-size-5-mobile='Rating ' + review.rating + ' out of 5' 
-          h2.is-size-5.is-size-6-mobile='Given by '
-            span.rainbow-box.has-text-weight-semibold=review.author.username
-          p.is-size-6.is-size-7-mobile=review.details
-        if currentUser && review.author.id === currentUser.id
-          .buttons
-            form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=DELETE" method="POST")
-              button.button.is-danger.my-3.is-responsive(type="submit") Delete Review
-            button.button.is-warning.my-3.is-responsive(type="submit" onclick="openAdjacentForm(this)") Edit
-            button.button.is-warning.my-3.is-responsive(type="submit" onclick="closeAdjacentForm(this)" style="display: none;") Cancel
-          form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=PATCH" method="POST" style="display: none;")
-            textarea.textarea.is-primary.my-3(placeholder='Write a review' name="details"  value=review.details)
-            input.custom-range.my-3(type="range" min=1, max=5, name="rating",value=review.rating)     
-            button.button.is-warning.my-3.is-responsive(type="submit") Edit
-        script(src="/public/scripts/showPageGlider.js" defer)
-  include postOptionsForm
+    a.my-3.button.is-link(href='/posts') All posts
+    .post
+        #map(style='width: 100%; height: 300px;')
+        .card
+            .glide
+                .glide__track(data-glide-el='track')
+                    ul.glide__slides
+                        each image, index in post.images
+                            li.glide__slide(style='height: 300px;')
+                                figure(class=`image is-1by1` id=`item-${index}`)
+                                    img(crossorigin style="object-fit: cover; height: 300px;" src=image.url, alt=post.title+"image")
+                        else
+                            li.glide__slide(style='height: 300px;')
+                                figure(class=`image is-1by1` id=`item-${index}`)
+                                    img(style="object-fit: contain; height: 300px;" src="/public/no-image.png")
+                .glide__arrows(data-glide-el='controls')
+                    button.slider__arrow.slider__arrow--prev.glide__arrow.glide__arrow--prev(data-glide-dir='<' style='left: 1.5rem;background-color:white;')
+                        svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24')
+                            path(d='M0 12l10.975 11 2.848-2.828-6.176-6.176H24v-3.992H7.646l6.176-6.176L10.975 1 0 12z')
+                    button.slider__arrow.slider__arrow--next.glide__arrow.glide__arrow--next(data-glide-dir='>' style='right: 1.5rem;background-color:white;')
+                        svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24')
+                            path(d='M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z')
+            .card-content
+                .media
+                    .media-content
+                        p.title.is-3.is-5-mobile=post.title
+                        p.subtitle.is-5.is-6-mobile="By "
+                            span.rainbow-box.has-text-weight-semibold=post.author.username
+                .content.is-5.is-6-mobile=post.description
+        if currentUser && (currentUser.id == post.author.id)
+            button.button.is-info.js-modal-trigger.my-3(data-target='modal-js-options-post')
+                strong="Edit or Delete Post"
+    .reviews 
+        if currentUser
+            h3.p-3.is-size-4="Write a review!"
+            form.p-3(class="hide" action="/posts/"+post.id+"/reviews" method="POST")
+                textarea.textarea.is-primary(placeholder='Write a review' name="details")     
+                .tooltip  
+                    span.tooltiptext='Drag to score this out of 1-5' 
+                    input.custom-range(type="range" min=1, max=5, name="rating",value=post.rating)
+                button(class="button is-primary" type="submit") Submit Review
+        each review in reviews
+            .review.card
+                .card-content
+                    h3.has-text-primary.is-size-4.is-size-5-mobile='Rating ' + review.rating + ' out of 5' 
+                    h2.is-size-5.is-size-6-mobile='Given by '
+                        span.rainbow-box.has-text-weight-semibold=review.author.username
+                    p.is-size-6.is-size-7-mobile=review.details
+                if currentUser && review.author.id === currentUser.id
+                    .buttons
+                        form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=DELETE" method="POST")
+                            button.button.is-danger.my-3.is-responsive(type="submit") Delete Review
+                        button.button.is-warning.my-3.is-responsive(type="submit" onclick="openAdjacentForm(this)") Edit
+                        button.button.is-warning.my-3.is-responsive(type="submit" onclick="closeAdjacentForm(this)" style="display: none;") Cancel
+                    form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=PATCH" method="POST" style="display: none;")
+                        textarea.textarea.is-primary.my-3(placeholder='Write a review' name="details"  value=review.details)
+                        input.custom-range.my-3(type="range" min=1, max=5, name="rating",value=review.rating)     
+                        button.button.is-warning.my-3.is-responsive(type="submit") Edit
+                script(src="/public/scripts/showPageGlider.js" defer)
+    include postOptionsForm
