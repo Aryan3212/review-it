@@ -30,8 +30,7 @@ const sanitizeEmail = (email) => {
 const sanitizeUserInput = (input) => {
     const trimmed = trim(input);
     const stripped = stripLow(trimmed);
-    const escaped = escape(stripped);
-    return escaped;
+    return stripped;
 };
 const objectMap = (obj, fn) => {
     return Object.fromEntries(
