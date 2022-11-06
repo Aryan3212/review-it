@@ -1,8 +1,8 @@
 require('dotenv').config();
 
-
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
-const morgan = require('morgan');
 const path = require('path');
 const methodOverride = require('method-override');
 const { db } = require('./db');
@@ -62,7 +62,10 @@ app.use(ExpressMongoSanitize());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+    const morgan = require('morgan');
+    app.use(morgan('dev'));
+}
 app.use(methodOverride('_method'));
 const sessionStoreOpts = {
     mongoUrl: process.env.DB_URL || 'mongodb://127.0.0.1:27017/review-it',
@@ -100,9 +103,15 @@ app.use((err, req, res, next) => {
     next();
 });
 
-const server = app.listen(process.env.port || 3000, () => {
-    console.log('Serving on 3000');
-});
+const server = https
+    .createServer(
+        {
+            key: fs.readFileSync('key.pem'),
+            cert: fs.readFileSync('cert.pem')
+        },
+        app
+    )
+    .listen(process.env.PORT || 443);
 
 process.on('SIGTERM', () => {
     console.info('SIGTERM signal received.');
