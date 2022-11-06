@@ -1,0 +1,56 @@
+extends ../layout
+
+block content
+    h1.is-size-1 #{user.username}'s Profile
+    hr
+    //- p All Posts (With Pagination) 
+    //- p All Reviews Given (With Pagination)
+    //- p Total reviews on posts (Denormalize) 
+    //- p Average review over all posts (Denormalize)
+    //- p Post with highest rating (Denormalize)
+    //- p Featured Post (New Design)
+
+    h3.is-size-3 Housekeeping
+    hr
+    form(action="/users/username?_method=PATCH" method="post")
+        .field
+            p.control.has-icons-left.has-icons-right
+                input.input(type='text' placeholder='Username' name='username' value=currentUser.username required)
+                span.icon.is-small.is-left
+                    i.fas.fa-user
+        .field
+            p.control
+                button.button.is-info.
+                    Change Username
+    form(action="/users/password?_method=PATCH" method="post")
+        .field
+            p.control.has-icons-left
+                input.input(type='password' placeholder='Old Password' name='old_password' required)
+                span.icon.is-small.is-left
+                    i.fas.fa-lock
+        .field
+            p.control.has-icons-left
+                input.input(type='password' placeholder='New Password' name='new_password' required)
+                span.icon.is-small.is-left
+                    i.fas.fa-lock
+        .field
+        p.control
+            button.button.is-warning.
+                Change Password
+    form(action="/users?_method=DELETE" method="post")
+        .field
+            p.control.has-icons-left.has-icons-right
+                input.input(type='text' placeholder='Email' name='email' required)
+                span.icon.is-small.is-left
+                    i.fas.fa-envelope
+                span.icon.is-small.is-right
+                    i.fas.fa-check
+        .field
+            p.control.has-icons-left
+                input.input(type='password' placeholder='Old Password' name='password' required)
+                span.icon.is-small.is-left
+                    i.fas.fa-lock
+        .field
+            p.control
+                button.button.is-danger.
+                    Delete Account
