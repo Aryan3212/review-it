@@ -20,6 +20,8 @@ head
     script(src="/public/scripts/index.js")
     block scripts
     link(href='/public/styles/dark-mode.css' rel='stylesheet' id='dark-theme-link')
+    script.
+        const mapTilerApiKey = '#{mapTilerApiKey}';
 body(class="container is-max-desktop px-3")
     span.icon.is-medium.my-3#dark-mode-icon
         i.fas.fa-light.fa-moon
