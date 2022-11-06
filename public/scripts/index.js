@@ -102,9 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
     (function () {
         const flashMessageBox = document.querySelector('.flash-messages');
-        flashMessageBox.addEventListener('animationend', () => {
-            flashMessageBox.style.display = 'none';
-        });
+        flashMessageBox &&
+            flashMessageBox.addEventListener('animationend', () => {
+                flashMessageBox.style.display = 'none';
+            });
     })();
 });
 

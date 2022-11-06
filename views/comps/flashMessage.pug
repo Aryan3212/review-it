@@ -1,9 +1,8 @@
 if success || error
-  .flash-messages
-    if success
-      article.message.is-primary
-        .message-body #{success}
-    if error
-      article.message.is-danger
-        .message-body #{error}
-      
+    .flash-messages
+        if success
+            article.message.is-primary
+                .message-body #{success}
+        if error
+            article.message.is-danger
+                .message-body #{error}
