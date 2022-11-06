@@ -1,5 +1,5 @@
 const { PostModel } = require('../models/postModel');
-const { ReviewModel } = require('../models/reviewModel');
+const { sanitizeUserInput, objectMap } = require('../utils');
 
 const filterGeolocationDataService = (posts) => {
     if (!Array.isArray(posts)) {
@@ -26,21 +26,32 @@ const createPostService = async ({
     images,
     author
 }) => {
-    const newPost = new PostModel({
+    const newPostObj = {
         title,
         price,
         description,
-        location: {
-            geometry: {
-                coordinates: [longitude, latitude]
-            },
-            properties: {
-                name: name || ''
-            }
+        longitude,
+        latitude,
+        name,
+        images,
+        author
+    };
+    const sanitizedNewPost = objectMap(
+        newPostObj,
+        (value) =>
+            value && typeof value === 'string' && sanitizeUserInput(value)
+    );
+    const newPost = new PostModel(sanitizedNewPost);
+    newPost.location = {
+        geometry: {
+            coordinates: [longitude, latitude]
         },
-        author,
-        images
-    });
+        properties: {
+            name
+        }
+    };
+    newPost.author = author;
+    newPost.images = images;
     return await newPost.save();
 };
 const updatePostService = async ({
@@ -53,16 +64,23 @@ const updatePostService = async ({
     name,
     images
 }) => {
-    const toBeUpdatedPost = await singlePostService(id);
-    toBeUpdatedPost.title = title || toBeUpdatedPost.title;
-    toBeUpdatedPost.price = price || toBeUpdatedPost.price;
-    toBeUpdatedPost.description = description || toBeUpdatedPost.description;
+    const toBeUpdatedPost = await getSinglePostService(id);
+    toBeUpdatedPost.title = title
+        ? sanitizeUserInput(title)
+        : toBeUpdatedPost.title;
+    toBeUpdatedPost.price = price
+        ? sanitizeUserInput(price)
+        : toBeUpdatedPost.price;
+    toBeUpdatedPost.description = description
+        ? sanitizeUserInput(description)
+        : toBeUpdatedPost.description;
     toBeUpdatedPost.location.geometry.coordinates[0] =
         longitude || toBeUpdatedPost.location.geometry.coordinates[0];
     toBeUpdatedPost.location.geometry.coordinates[1] =
         latitude || toBeUpdatedPost.location.geometry.coordinates[1];
-    toBeUpdatedPost.location.properties.name =
-        name || toBeUpdatedPost.location.properties.name;
+    toBeUpdatedPost.location.properties.name = name
+        ? sanitizeUserInput(name)
+        : toBeUpdatedPost.location.properties.name;
     toBeUpdatedPost.images =
         images.length > 1 ? images : toBeUpdatedPost.images;
     const updatedPost = await toBeUpdatedPost.save();
@@ -73,25 +91,18 @@ const deletePostService = async ({ id }) => {
     return await PostModel.findByIdAndDelete(id);
 };
 
-const allPostsService = async (populateFields = []) => {
-    return await PostModel.find({}).populate(populateFields);
+const getPostsService = async ({ query = {}, populateFields = [] }) => {
+    return await PostModel.find(query).populate(populateFields);
 };
 
-const singlePostService = async (id, populateFields = []) => {
+const getSinglePostService = async (id, populateFields = []) => {
     return await PostModel.findById(id).populate(populateFields);
-};
-
-const postReviewsService = async (id) => {
-    return await ReviewModel.find({
-        post: id
-    }).populate('author');
 };
 
 module.exports = {
     filterGeolocationDataService,
-    allPostsService,
-    singlePostService,
-    postReviewsService,
+    getPostsService,
+    getSinglePostService,
     createPostService,
     deletePostService,
     updatePostService
