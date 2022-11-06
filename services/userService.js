@@ -1,7 +1,8 @@
 const { PostModel } = require('../models/postModel');
 const { ReviewModel } = require('../models/reviewModel');
 const { UserModel } = require('../models/userModel');
-const { sanitizeUserInput } = require('../utils');
+const { sanitizeUserInput, sanitizeEmail } = require('../utils');
+const { getPostsService } = require('./postService');
 const ObjectId = require('mongodb').ObjectId;
 const findUserService = async (query) => {
     const userFound = await UserModel.findOne(query);
@@ -10,18 +11,26 @@ const findUserService = async (query) => {
 
 const registerUserService = async ({ username, email, password }) => {
     const sanitizedUsername = sanitizeUserInput(username);
-    const sanitizedEmail = sanitizeUserInput(email);
+    const sanitizedEmail = sanitizeEmail(email);
 
     const userToBeRegistered = new UserModel({
         username: sanitizedUsername,
         email: sanitizedEmail
     });
-    return await UserModel.register(userToBeRegistered, password);
+
+    const registeredUser = await UserModel.register(
+        userToBeRegistered,
+        password
+    );
+    registeredUser.verified = true;
+    return registeredUser;
 };
-const loginUserService = async ({ username, password }) => {
-    const sanitizedUsername = sanitizeUserInput(username);
+const loginUserService = async ({ email, password }) => {
+    const sanitizedEmail = sanitizeEmail(email);
     const authenticate = await UserModel.authenticate();
-    return await authenticate(sanitizedUsername, password);
+
+    const { user, err } = await authenticate(sanitizedEmail, password);
+    return { user, err };
 };
 const setUsernameAndPasswordService = async ({ user, username, password }) => {
     await user.setPassword(password);
@@ -32,9 +41,9 @@ const setUsernameAndPasswordService = async ({ user, username, password }) => {
     return await authenticate(user.username, password);
 };
 const changeUsernameService = async ({ user, username }) => {
-    const userFound = findUserService({ username });
+    const userFound = await findUserService({ username });
     if (!userFound) {
-        const userToChange = findUserService({ id: user.id });
+        const userToChange = await findUserService({ _id: user.id });
         userToChange.username = sanitizeUserInput(username);
         return await userToChange.save();
     } else {
@@ -47,14 +56,18 @@ const changePasswordService = async ({ user, old_password, new_password }) => {
     else return null;
 };
 const deleteUserService = async ({ user }) => {
-    await UserModel.deleteOne({ id: user.id });
-    const deletedPosts = await PostModel.deleteMany({ author: user.id });
-    await ReviewModel.deleteMany({ author: user.id });
-    return await Promise.all(
-        deletedPosts.map(
-            async (post) => await ReviewModel.deleteMany({ post: post.id })
-        )
+    const userPosts = await getPostsService({ query: { author: user.id } });
+    await Promise.all(
+        userPosts.map((post) => {
+
+                ReviewModel.deleteMany({ post: post.id });
+                post.remove();
+
+        })
     );
+    await ReviewModel.deleteMany({ author: user.id });
+    await UserModel.findOneAndDelete({ _id: user.id });
+
 };
 module.exports = {
     findUserService,

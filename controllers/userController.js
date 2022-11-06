@@ -13,7 +13,7 @@ const {
 
 const userProfile = async (req, res) => {
     const user = req.user;
-    const userData = findUserService({ id: user.id });
+    const userData = await findUserService({ _id: user.id });
     const posts = await getPostsService({ query: { author: userData.id } });
     const reviews = await getReviewsService({ query: { author: userData.id } });
     const successFlash = req.flash('success')[0];
@@ -22,7 +22,8 @@ const userProfile = async (req, res) => {
         title: userData.username + "'s Profile",
         posts,
         reviews,
-        currentUser: user && user.verified ? user : null,
+        currentUser: userData && userData.verified ? userData : null,
+        mapTilerApiKey: process.env.MAPTILER_API_KEY,
         success: successFlash,
         error: errorFlash
     });
@@ -53,14 +54,19 @@ const registerUser = async (req, res, next) => {
         req.flash('error', `😭 Couldn't register.`);
         console.log('Registration failed');
     }
-    const result = await loginUserService({ username, password });
-    req.login(result, (err) => {
-        if (err) {
-            req.flash('error', "Something broke 😭. Couldn't login.");
-            return next(err);
-        }
-        return res.redirect('/');
-    });
+    const { user, err } = await loginUserService({ email, password });
+    if (err) {
+        req.flash('error', "Something broke 😭. Couldn't login.");
+        return next(err);
+    }
+    if (user) {
+        req.login(user, (err) => {
+            if (err) {
+                next(err);
+            }
+            res.redirect('/');
+        });
+    }
 };
 
 const registerOAuthUser = async (req, res) => {
@@ -99,24 +105,25 @@ const finalizeUser = async (req, res) => {
     });
 };
 const deleteUser = async (req, res) => {
-    const { username, password } = req.body;
-    const { user } = req.user;
-    if (loginUserService({ username, password }))
-        await deleteUserService({ user });
-    else {
+    const { email, password } = req.body;
+    const user = req.user;
+    if (loginUserService({ email, password })) {
+        req.logout(async () => {
+            await deleteUserService({ user });
+            req.flash('success', 'Successfully deleted account 😼!');
+            return res.redirect('/');
+        });
+    } else {
         req.flash('error', 'Something went wrong 😥.');
-        res.redirect('users/profile');
+        res.redirect('/users/profile');
     }
-    await req.logout();
-    req.flash('success', 'Successfully deleted account 😼!');
-    res.redirect('/');
 };
 
 const changeUsername = async (req, res) => {
     const { username } = req.body;
-    const { user } = req.user;
+    const user = req.user;
     if (username) {
-        const changedUser = changeUsernameService({ user, username });
+        const changedUser = await changeUsernameService({ user, username });
         if (changedUser) {
             req.flash('success', 'Username changed 😼!');
         } else {
@@ -125,11 +132,11 @@ const changeUsername = async (req, res) => {
     } else {
         req.flash('error', 'Something went wrong 😥.');
     }
-    res.redirect('users/profile');
+    return res.status(204).redirect('/users/profile');
 };
 const changePassword = async (req, res) => {
     const { old_password, new_password } = req.body;
-    const { user } = req.user;
+    const user = req.user;
     const returnVal = await changePasswordService({
         user,
         old_password,
@@ -140,15 +147,9 @@ const changePassword = async (req, res) => {
     } else {
         req.flash('error', 'Something went wrong 😥.');
     }
-    res.redirect('users/profile');
+    res.redirect('/users/profile');
 };
-const toggleVerifyUser = async (req, res) => {
-    const currentUser = req.user;
-    const newUser = UserModel.findById(currentUser.id);
-    newUser.verified = !newUser.verified;
-    req.flash('success', 'Successfully toggled verification 😼!');
-    res.redirect('/');
-};
+
 module.exports = {
     registerUser,
     logoutUser,

@@ -22,8 +22,7 @@ const UserSchema = new Schema(
             type: String,
             unique: true
         },
-        verified: { type: Boolean, required: true, default: false },
-        googleId: { type: String }
+        verified: { type: Boolean, required: true, default: false }
     },
     opts
 );

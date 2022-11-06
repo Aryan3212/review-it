@@ -15,7 +15,8 @@ const passport = require('passport');
 const { UserModel } = require('../models/userModel');
 const {
     isNotVerified,
-    isVerified
+    isVerified,
+    getEmail
 } = require('../middleware/userVerifiedMiddleware');
 const router = new Router();
 
@@ -39,11 +40,12 @@ router
     .route('/password')
     .patch(catchAsync(isAuthenticated), catchAsync(changePassword));
 router.route('/login').post(
+    catchAsync(getEmail),
     catchAsync(async (req, res, next) => {
         passport.authenticate('local', {
             successReturnToOrRedirect: '/',
             failureRedirect: '/',
-            failureMessage: true
+            failureMessage: `Couldn't log you in 😭.`
         })(req, res, next);
     })
 );
