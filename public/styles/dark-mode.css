@@ -45,3 +45,7 @@ body,
 .review.card > .card-content > h3 {
     color: hsl(171, 100%, 75%) !important;
 }
+
+.maplibregl-popup-content.mapboxgl-popup-content p {
+    color: hsl(0, 0%, 14%);
+}
