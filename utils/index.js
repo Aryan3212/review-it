@@ -23,7 +23,9 @@ const processUploadedImageFiles = (files) => {
     });
 };
 const sanitizeEmail = (email) => {
-    return normalizeEmail(sanitizeUserInput(email));
+    return normalizeEmail(sanitizeUserInput(email), {
+        gmail_remove_dots: false
+    });
 };
 const sanitizeUserInput = (input) => {
     const trimmed = trim(input);
@@ -38,10 +40,10 @@ const objectMap = (obj, fn) => {
 };
 
 const populateFields = (fieldsArray) => {
-    return fieldsArray.map((field)=> {
-        return {path: field}
-    })
-}
+    return fieldsArray.map((field) => {
+        return { path: field };
+    });
+};
 module.exports = {
     sanitizeEmail,
     sanitizeUserInput,
