@@ -1,21 +1,23 @@
 const {
     filterGeolocationDataService,
-    allPostsService,
-    singlePostService,
+
     createPostService,
     deletePostService,
-    postReviewsService,
-    updatePostService
+    getSinglePostService,
+    updatePostService,
+    getPostsService
 } = require('../services/postService');
+const { getReviewsService } = require('../services/reviewService');
+
 const { processUploadedImageFiles } = require('../utils');
 
 const listPosts = async (req, res) => {
     const user = req.user;
-    const posts = await allPostsService(['author']);
+    const posts = await getPostsService({ populateFields: ['author'] });
     const geoData = filterGeolocationDataService(posts);
     const successFlash = req.flash('success')[0];
     const errorFlash = req.flash('error')[0];
-    res.status(200).render('posts/list', {
+    return res.status(200).render('posts/list', {
         title: 'Posts',
         posts,
         currentUser: user && user.verified ? user : null,
@@ -29,12 +31,15 @@ const listPosts = async (req, res) => {
 const showPost = async (req, res) => {
     const { id } = req.params;
     const user = req.user;
-    const post = await singlePostService(id, ['author']);
+    const post = await getSinglePostService(id, ['author']);
     const geoData = filterGeolocationDataService(post);
-    const reviews = await postReviewsService(id);
+    const reviews = await getReviewsService({
+        query: { post: id },
+        populateFields: ['author']
+    });
     const successFlash = req.flash('success')[0];
     const errorFlash = req.flash('error')[0];
-    res.status(200).render('posts/show', {
+    return res.status(200).render('posts/show', {
         title: post.title,
         post,
         reviews,
@@ -61,14 +66,14 @@ const createPost = async (req, res) => {
         author
     });
     req.flash('success', `${title} created. Users can Review-it 😼!`);
-    res.redirect(`/posts/${newPost.id}`);
+    return res.redirect(`/posts/${newPost.id}`);
 };
 
 const deletePost = async (req, res) => {
     const { id } = req.params;
     await deletePostService({ id });
     req.flash('success', `Post deleted 😼!`);
-    res.redirect('/posts');
+    return res.redirect('/posts');
 };
 
 const updatePost = async (req, res) => {
@@ -87,7 +92,7 @@ const updatePost = async (req, res) => {
     };
     const updatedPost = await updatePostService(updateFields);
     req.flash('success', `Post updated 😼!`);
-    res.status(204).redirect(`/posts/${updatedPost.id}`);
+    return res.status(204).redirect(`/posts/${updatedPost.id}`);
 };
 module.exports = {
     listPosts,
