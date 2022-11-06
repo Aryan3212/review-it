@@ -1,9 +1,11 @@
 const { ReviewModel } = require('../models/reviewModel');
+const { sanitizeUserInput } = require('../utils');
+
 const ObjectId = require('mongodb').ObjectId;
 const createReviewService = async ({ details, rating, author, post }) => {
     const newReview = new ReviewModel({
-        details: details.trim(),
-        rating,
+        details: sanitizeUserInput(details),
+        rating: rating,
         author: ObjectId(author),
         post: ObjectId(post)
     });
@@ -16,13 +18,18 @@ const deleteReviewService = async ({ id }) => {
 
 const updateReviewService = async ({ details, rating, id }) => {
     const reviewToBeUpdated = await ReviewModel.findById(id);
-    reviewToBeUpdated.details = details.trim() || reviewToBeUpdated.details;
+    reviewToBeUpdated.details =
+        sanitizeUserInput(details) || reviewToBeUpdated.details;
     reviewToBeUpdated.rating = rating || reviewToBeUpdated.rating;
     return await reviewToBeUpdated.save();
+};
+const getReviewsService = async ({ query = {}, populateFields = [] }) => {
+    return await ReviewModel.find(query).populate(populateFields);
 };
 
 module.exports = {
     createReviewService,
     deleteReviewService,
-    updateReviewService
+    updateReviewService,
+    getReviewsService
 };
