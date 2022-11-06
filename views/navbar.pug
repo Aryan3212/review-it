@@ -5,7 +5,7 @@ mixin navbar(currentUser)
                 img(src='/public/review-it.png' style='background:none;width: 70px; height: 70px; padding: 5px;')
             .is-flex.is-align-items-center
                 if currentUser
-                    button.button.rainbow-box.is-hidden-desktop#userboxmobile Welcome, #{currentUser.username}
+                    a(href="/users/profile").button.rainbow-box.is-hidden-desktop#userboxmobile Welcome, #{currentUser.username}
                 a.navbar-burger(role='button' aria-label='menu' aria-expanded='false' data-target='headerNavbar')
                     span(aria-hidden='true')
                     span(aria-hidden='true')
@@ -17,7 +17,7 @@ mixin navbar(currentUser)
                         if currentUser
                             a.button.is-primary.js-modal-trigger(data-target='modal-js-new-post')
                                 strong New Post
-                            button.button.rainbow-box.is-hidden-touch#userboxdesktop Welcome, #{currentUser.username} 
+                            a(href="/users/profile").button.rainbow-box.is-hidden-touch#userboxdesktop Welcome, #{currentUser.username} 
                             form(action="/users/logout" method="post") 
                                 button.button.is-danger(type="submit")
                                     strong Logout
