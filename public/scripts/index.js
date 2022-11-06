@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = document.querySelector('#dark-mode-icon');
         // Select the stylesheet <link>
         const theme = document.querySelector('#dark-theme-link');
+        const colorScheme = window.localStorage.getItem('color-scheme');
         function setLightTheme() {
             theme.href = '';
             btn.firstChild.classList.remove('fa-sun');
@@ -81,24 +82,34 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.firstChild.classList.remove('fa-moon');
             btn.firstChild.classList.add('fa-sun');
         }
+        btn.addEventListener('click', function () {
+            if (theme.getAttribute('href') === '/public/styles/dark-mode.css') {
+                setLightTheme();
+                window.localStorage.setItem('color-scheme', 'light');
+            } else {
+                setDarkTheme();
+                window.localStorage.setItem('color-scheme', 'dark');
+            }
+        });
+
         if (window.matchMedia) {
             window
                 .matchMedia('(prefers-color-scheme: dark)')
                 .addEventListener('change', (event) => {
                     event.matches ? setDarkTheme() : setLightTheme();
                 });
-            // window.matchMedia('(prefers-color-scheme: dark)').emit('change');
-            window.matchMedia('(prefers-color-scheme: dark)')
-                ? setDarkTheme()
-                : setLightTheme;
+
+            if (colorScheme) {
+                if (colorScheme === 'dark') setDarkTheme();
+                else setLightTheme();
+            } else {
+                window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? setDarkTheme()
+                    : setLightTheme();
+            }
         } else {
-            setLightTheme();
+            setDarkTheme();
         }
-        btn.addEventListener('click', function () {
-            theme.getAttribute('href') === '/public/styles/dark-mode.css'
-                ? setLightTheme()
-                : setDarkTheme();
-        });
     })();
     (function () {
         const flashMessageBox = document.querySelector('.flash-messages');
