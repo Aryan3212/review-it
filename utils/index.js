@@ -17,8 +17,8 @@ const imageFilter = (req, file, cb) => {
 const processUploadedImageFiles = (files) => {
     return files.map((file) => {
         return {
-            url: this.sanitizeUserInput(file.path),
-            filename: this.sanitizeUserInput(file.filename)
+            url: sanitizeUserInput(file.path),
+            filename: sanitizeUserInput(file.filename)
         };
     });
 };
