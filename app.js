@@ -15,6 +15,7 @@ const flash = require('connect-flash');
 const helmet = require('helmet');
 const app = express();
 app.use(helmet());
+
 const scriptSrcUrls = [
     'https://cdnjs.cloudflare.com',
     'https://cdn.jsdelivr.net',
@@ -72,20 +73,31 @@ const sessionStoreOpts = {
     secret: process.env.SESSION_SECRET,
     touchAfter: 24 * 3600
 };
+const expiryDate = new Date(Date.now() + 60 * 60 * 1000 * 24);
 const sessionOpts = {
     name: process.env.session_name,
     store: MongoStore.create(sessionStoreOpts),
     path: '/',
     httpOnly: true,
-    cookie: { secure: true },
+    cookie: {
+        httpOnly: true,
+        expires: expiryDate,
+        sameSite: 'none'
+    },
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     maxAge: 100 * 60 * 60
 };
 if (process.env.NODE_ENV === 'production') {
+    console.log('Secured!');
     app.set('trust proxy', 1); // trust first proxy
-    sessionOpts.cookie.secure = true; // serve secure cookies
+    sessionOpts.cookie = {
+        secure: true,
+        httpOnly: true,
+        expires: expiryDate,
+        sameSite: 'none'
+    };
 }
 app.use(session(sessionOpts));
 app.use(flash());
@@ -102,17 +114,22 @@ app.use((err, req, res, next) => {
     res.render('error', { err, currentUser: req.user });
     next();
 });
-
-const server = https
-    .createServer(
-        {
-            key: fs.readFileSync('key.pem'),
-            cert: fs.readFileSync('cert.pem')
-        },
-        app
-    )
-    .listen(process.env.PORT || 443);
-
+let server;
+if (process.env.HTTPS) {
+    server = https
+        .createServer(
+            {
+                key: fs.readFileSync('key.pem'),
+                cert: fs.readFileSync('cert.pem')
+            },
+            app
+        )
+        .listen(process.env.PORT || 443);
+} else {
+    server = app.listen(process.env.port || 3000, () => {
+        console.log('Serving on', process.env.port || 3000);
+    });
+}
 process.on('SIGTERM', () => {
     console.info('SIGTERM signal received.');
     console.log('Closing http server.');
