@@ -81,8 +81,7 @@ const sessionOpts = {
     httpOnly: true,
     cookie: {
         httpOnly: true,
-        expires: expiryDate,
-        sameSite: 'none'
+        expires: expiryDate
     },
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -115,7 +114,7 @@ app.use((err, req, res, next) => {
     next();
 });
 let server;
-if (process.env.HTTPS) {
+if (process.env.HTTPS !== 'unset') {
     server = https
         .createServer(
             {
@@ -126,8 +125,8 @@ if (process.env.HTTPS) {
         )
         .listen(process.env.PORT || 443);
 } else {
-    server = app.listen(process.env.port || 3000, () => {
-        console.log('Serving on', process.env.port || 3000);
+    server = app.listen(process.env.PORT || 3000, () => {
+        console.log('Serving on', process.env.PORT || 3000);
     });
 }
 process.on('SIGTERM', () => {
