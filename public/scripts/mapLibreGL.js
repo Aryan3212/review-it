@@ -114,7 +114,6 @@ map.on('load', function () {
         let name = e.features[0].properties.name;
         let title = e.features[0].properties.title;
         let id = e.features[0].properties.id;
-        console.log(e.features[0]);
         // Ensure that if the map is zoomed out such that
         // multiple copies of the feature are visible, the
         // popup appears over the copy being pointed to.

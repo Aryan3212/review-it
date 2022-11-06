@@ -24,11 +24,11 @@ module.exports.places = [
     'Village',
     'Canyon',
     'Pond',
-    'Group post',
-    'Horse post',
+    'Group',
+    'Horse',
     'Ghost Town',
     'post',
-    'Dispersed post',
+    'Dispersed',
     'Backcountry',
     'River',
     'Creek',
@@ -38,7 +38,7 @@ module.exports.places = [
     'Bayshore',
     'Sands',
     'Mule post',
-    'Hunting post',
+    'Hunting',
     'Cliffs',
     'Hollow'
 ];

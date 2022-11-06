@@ -1,6 +1,5 @@
 const {
     filterGeolocationDataService,
-
     createPostService,
     deletePostService,
     getSinglePostService,
