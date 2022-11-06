@@ -23,6 +23,7 @@ const registerUserService = async ({ username, email, password }) => {
         password
     );
     registeredUser.verified = true;
+    await registerUser.save();
     return registeredUser;
 };
 const loginUserService = async ({ email, password }) => {
