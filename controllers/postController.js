@@ -17,7 +17,6 @@ const listPosts = async (req, res) => {
     const successFlash = req.flash('success')[0];
     const errorFlash = req.flash('error')[0];
     return res.status(200).render('posts/list', {
-        title: 'Posts',
         posts,
         currentUser: user && user.verified ? user : null,
         geoData,
