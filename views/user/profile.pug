@@ -1,56 +1,70 @@
 extends ../layout
 
 block content
-    h1.is-size-1 #{user.username}'s Profile
-    hr
-    //- p All Posts (With Pagination) 
-    //- p All Reviews Given (With Pagination)
-    //- p Total reviews on posts (Denormalize) 
-    //- p Average review over all posts (Denormalize)
-    //- p Post with highest rating (Denormalize)
-    //- p Featured Post (New Design)
-
-    h3.is-size-3 Housekeeping
-    hr
-    form(action="/users/username?_method=PATCH" method="post")
-        .field
-            p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Username' name='username' value=currentUser.username required)
-                span.icon.is-small.is-left
-                    i.fas.fa-user
-        .field
-            p.control
-                button.button.is-info.
-                    Change Username
-    form(action="/users/password?_method=PATCH" method="post")
-        .field
-            p.control.has-icons-left
-                input.input(type='password' placeholder='Old Password' name='old_password' required)
-                span.icon.is-small.is-left
-                    i.fas.fa-lock
-        .field
-            p.control.has-icons-left
-                input.input(type='password' placeholder='New Password' name='new_password' required)
-                span.icon.is-small.is-left
-                    i.fas.fa-lock
-        .field
-        p.control
-            button.button.is-warning.
-                Change Password
-    form(action="/users?_method=DELETE" method="post")
-        .field
-            p.control.has-icons-left.has-icons-right
-                input.input(type='text' placeholder='Email' name='email' required)
-                span.icon.is-small.is-left
-                    i.fas.fa-envelope
-                span.icon.is-small.is-right
-                    i.fas.fa-check
-        .field
-            p.control.has-icons-left
-                input.input(type='password' placeholder='Old Password' name='password' required)
-                span.icon.is-small.is-left
-                    i.fas.fa-lock
-        .field
-            p.control
-                button.button.is-danger.
-                    Delete Account
+    section.section
+        h1.is-size-3 #{currentUser.username}'s Profile
+    section.section
+        h3.is-size-4 About Me
+        hr
+        p Email: #{currentUser.email}
+    //- section.section
+    //-     h3.is-size-4 Profile Analytics
+    //-     hr
+    //-     //- p All Posts (With Pagination) 
+    //-     //- p All Reviews Given (With Pagination)
+    //-     //- p Total reviews on posts (Denormalize) 
+    //-     //- p Average review over all posts (Denormalize)
+    //-     //- p Post with highest rating (Denormalize)
+    //-     //- p Featured Post (New Design)
+    section.section
+        h3.is-size-4 Housekeeping
+        hr
+        section.section
+            h4.is-size-6 Change your username
+            hr
+            form.section(action="/users/username?_method=PATCH" method="post")
+                .field
+                    p.control.has-icons-left.has-icons-right
+                        input.input(type='text' placeholder='Username' name='username' value=currentUser.username required)
+                        span.icon.is-small.is-left
+                            i.fas.fa-user
+                .field
+                    p.control
+                        button.button.is-info.
+                            Change Username
+            h4.is-size-5 Change your password
+            hr
+            form.section(action="/users/password?_method=PATCH" method="post")
+                .field
+                    p.control.has-icons-left
+                        input.input(type='password' placeholder='Old Password' name='old_password' required)
+                        span.icon.is-small.is-left
+                            i.fas.fa-lock
+                .field
+                    p.control.has-icons-left
+                        input.input(type='password' placeholder='New Password' name='new_password' required)
+                        span.icon.is-small.is-left
+                            i.fas.fa-lock
+                .field
+                p.control
+                    button.button.is-warning.
+                        Change Password
+            h4.is-size-5.is-text-danger Delete Account
+            hr
+            form.section(action="/users?_method=DELETE" method="post")
+                .field
+                    p.control.has-icons-left.has-icons-right
+                        input.input(type='text' placeholder='Email' name='email' required)
+                        span.icon.is-small.is-left
+                            i.fas.fa-envelope
+                        span.icon.is-small.is-right
+                            i.fas.fa-check
+                .field
+                    p.control.has-icons-left
+                        input.input(type='password' placeholder='Password' name='password' required)
+                        span.icon.is-small.is-left
+                            i.fas.fa-lock
+                .field
+                    p.control
+                        button.button.is-danger.
+                            Delete Account
