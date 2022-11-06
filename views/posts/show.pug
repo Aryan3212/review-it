@@ -61,8 +61,8 @@ block content
                         button.button.is-warning.my-3.is-responsive(type="submit" onclick="openAdjacentForm(this)") Edit
                         button.button.is-warning.my-3.is-responsive(type="submit" onclick="closeAdjacentForm(this)" style="display: none;") Cancel
                     form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=PATCH" method="POST" style="display: none;")
-                        textarea.textarea.is-primary.my-3(placeholder='Write a review' name="details"  value=review.details)
-                        input.custom-range.my-3(type="range" min=1, max=5, name="rating",value=review.rating)     
+                        textarea.textarea.is-primary.my-3(placeholder='Write a review' name="details")=review.details
+                        input.custom-range.my-3(type="range" min=1 max=5 name="rating" value=review.rating)     
                         button.button.is-warning.my-3.is-responsive(type="submit") Edit
     script(src="/public/scripts/showPageGlider.js" defer)
     include postOptionsForm
