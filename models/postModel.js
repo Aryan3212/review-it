@@ -6,19 +6,21 @@ const { Schema } = mongoose;
 const coordinatesArrayValidator = (a) => a.length == 2;
 
 // Schema definitions
-const ImageSchema = new Schema({
-    url: {
-        type: String,
-        minLength: 1,
-        required: true,
-        default: process.env.DEFAULT_IMG
+const ImageSchema = new Schema(
+    {
+        url: {
+            type: String,
+            minLength: 1,
+            required: true
+        },
+        filename: {
+            type: String,
+            minLength: 1,
+            required: true
+        }
     },
-    filename: {
-        type: String,
-        minLength: 1,
-        required: true
-    }
-});
+    { _id: false }
+);
 
 ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_200');
@@ -27,6 +29,7 @@ ImageSchema.virtual('thumbnail').get(function () {
 const opts = {
     strict: true,
     strictQuery: false,
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: {
         virtuals: true,

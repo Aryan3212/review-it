@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const opts = {
     strict: true,
     strictQuery: false,
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: {
         virtuals: true,
