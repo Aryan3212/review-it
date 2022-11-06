@@ -49,6 +49,7 @@ app.use(
                 'data:',
                 'https://res.cloudinary.com/dwz8ueclf/'
             ],
+            scriptSrcAttr: ["'unsafe-inline'", "'self'"],
             fontSrc: ["'self'", ...fontSrcUrls]
         }
     })
