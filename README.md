@@ -56,6 +56,9 @@ GOOGLE_CLIENT_SECRET=
 EMAIL_VERIFICATION_ENABLED=
 EMAIL_VERIFICATION_API_BASE_URL=
 EMAIL_VERIFICATION_API_KEY=
+
+// You should set this to unset when working in local dev environment
+HTTPS=unset
 ```
 
 I'm planning on deploying this after I can put in safeguards in place so that people don't end up abusing my service provider.
