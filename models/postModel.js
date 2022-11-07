@@ -3,7 +3,15 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 // Validator functions
 
-const coordinatesArrayValidator = (a) => a.length == 2;
+const coordinatesArrayValidator = (a) => {
+    return (
+        a.length == 2 &&
+        a[0] >= -180 &&
+        a[0] <= 180 &&
+        a[1] >= -90 &&
+        a[1] <= 90
+    );
+};
 
 // Schema definitions
 const ImageSchema = new Schema(
