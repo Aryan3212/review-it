@@ -58,6 +58,7 @@ EMAIL_VERIFICATION_API_BASE_URL=
 EMAIL_VERIFICATION_API_KEY=
 
 // You should set this to unset when working in local dev environment
+// some managed services like Render and Heroku also needs to be unset as they'll handle TLS themselves
 HTTPS=unset
 ```
 
