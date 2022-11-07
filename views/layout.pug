@@ -27,6 +27,7 @@ head
     script.
         const mapTilerApiKey = '#{mapTilerApiKey}';
 body(class="container is-max-desktop px-3")
+    .loading.loading__full-height
     span.icon.is-medium.my-3#dark-mode-icon
         i.fas.fa-light.fa-moon
     +navbar(currentUser)
