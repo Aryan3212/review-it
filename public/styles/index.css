@@ -19,6 +19,7 @@
     margin-block: 2em;
 }
 #dark-mode-icon {
+    cursor: pointer;
     background-color: white;
     border-radius: 50%;
     z-index: 31;

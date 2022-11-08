@@ -22,8 +22,7 @@ const marker = new maplibregl.Marker({
 function onDragEnd() {
     showLoader();
     const lngLat = marker.getLngLat();
-    setLongLatOnForm(lngLat.lng, lngLat.lat, newPostForm);
-    removeLoader();
+    setLongLatOnForm(lngLat.lng, lngLat.lat, newPostForm).then(removeLoader);   
 }
 
 marker.on('dragend', onDragEnd);
