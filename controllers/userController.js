@@ -107,7 +107,8 @@ const finalizeUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     const { email, password } = req.body;
     const user = req.user;
-    if (loginUserService({ email, password })) {
+    const { user: userFound } = loginUserService({ email, password });
+    if (userFound) {
         req.logout(async () => {
             await deleteUserService({ user });
             req.flash('success', 'Successfully deleted account 😼!');
