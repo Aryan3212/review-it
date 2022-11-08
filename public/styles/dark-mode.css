@@ -37,6 +37,7 @@ body,
 #dark-mode-icon {
     background-color: hsl(0, 0%, 14%);
     border: 1px solid hsl(0, 0%, 96%);
+    color: hsl(0, 0%, 96%);
 }
 .review.card {
     border: 2px solid hsl(0, 0%, 90%);

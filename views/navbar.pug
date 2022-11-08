@@ -14,6 +14,8 @@ mixin navbar(currentUser)
             .navbar-end
                 .navbar-item
                     .buttons
+                        span.icon.is-medium#dark-mode-icon
+                            i.fas.fa-regular.fa-lightbulb
                         if currentUser
                             a.button.is-primary.js-modal-trigger(data-target='modal-js-new-post')
                                 strong New Post

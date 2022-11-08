@@ -28,8 +28,6 @@ head
         const mapTilerApiKey = '#{mapTilerApiKey}';
 body(class="container is-max-desktop px-3")
     .loading.loading__full-height#loading
-    span.icon.is-medium.my-3#dark-mode-icon
-        i.fas.fa-light.fa-moon
     +navbar(currentUser)
     block content
     include ./comps/flashMessage.pug

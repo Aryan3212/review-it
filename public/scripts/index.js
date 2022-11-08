@@ -92,13 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const colorScheme = window.localStorage.getItem('color-scheme');
         function setLightTheme() {
             theme.href = '';
-            btn.firstChild.classList.remove('fa-sun');
-            btn.firstChild.classList.add('fa-moon');
         }
         function setDarkTheme() {
             theme.href = '/public/styles/dark-mode.css';
-            btn.firstChild.classList.remove('fa-moon');
-            btn.firstChild.classList.add('fa-sun');
         }
         btn.addEventListener('click', function () {
             if (theme.getAttribute('href') === '/public/styles/dark-mode.css') {

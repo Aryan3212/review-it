@@ -19,14 +19,12 @@
     margin-block: 2em;
 }
 #dark-mode-icon {
-    position: fixed;
-    top: 5rem;
-    right: 3rem;
     background-color: white;
     border-radius: 50%;
     z-index: 31;
     border: 1px solid black;
-    animation: breathe 1s infinite alternate-reverse;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 #dark-mode-icon:hover {
     opacity: 0.5;
