@@ -53,22 +53,26 @@ const changeUsernameService = async ({ user, username }) => {
 };
 const changePasswordService = async ({ user, old_password, new_password }) => {
     const userFound = findUserService({ id: user.id });
-    if (userFound) return await user.changePassword(old_password, new_password);
-    else return null;
+    if (userFound) {
+        try {
+            await user.changePassword(old_password, new_password);
+        } catch (e) {
+            return null;
+        }
+    } else {
+        return null;
+    }
 };
 const deleteUserService = async ({ user }) => {
     const userPosts = await getPostsService({ query: { author: user.id } });
     await Promise.all(
         userPosts.map((post) => {
-
-                ReviewModel.deleteMany({ post: post.id });
-                post.remove();
-
+            ReviewModel.deleteMany({ post: post.id });
+            post.remove();
         })
     );
     await ReviewModel.deleteMany({ author: user.id });
     await UserModel.findOneAndDelete({ _id: user.id });
-
 };
 module.exports = {
     findUserService,
