@@ -1,6 +1,7 @@
 extends ../layout
 
 block content
+    a.should-load.my-3.button.is-link(href='/posts') Go back
     section.section
         h1.is-size-3 #{currentUser.username}'s Profile
     section.section
@@ -30,7 +31,7 @@ block content
                             i.fas.fa-user
                 .field
                     p.control
-                        button.button.is-info.
+                        button.should-load.button.is-info.
                             Change Username
             h4.is-size-5 Change your password
             hr
@@ -47,7 +48,7 @@ block content
                             i.fas.fa-lock
                 .field
                 p.control
-                    button.button.is-warning.
+                    button.should-load.button.is-warning.
                         Change Password
             h4.is-size-5.is-text-danger Delete Account
             hr
@@ -66,5 +67,5 @@ block content
                             i.fas.fa-lock
                 .field
                     p.control
-                        button.button.is-danger.
+                        button.should-load.button.is-danger.
                             Delete Account

@@ -20,8 +20,10 @@ const marker = new maplibregl.Marker({
     .addTo(newPostMap);
 
 function onDragEnd() {
+    showLoader();
     const lngLat = marker.getLngLat();
     setLongLatOnForm(lngLat.lng, lngLat.lat, newPostForm);
+    removeLoader();
 }
 
 marker.on('dragend', onDragEnd);

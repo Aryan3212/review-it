@@ -43,8 +43,8 @@
                 #option-post-map(style="width: 65%; height:200px;")
                 .field
                     p.control
-                        button.my-3.button.is-warning Edit Post
+                        button.my-3.button.is-warning.should-load Edit Post
             form.my-2(action="/posts/"+post.id+"?_method=DELETE" method="post")
-                button.button.is-danger Delete Post
+                button.button.is-danger.should-load Delete Post
     button.modal-close.is-large(aria-label='close')
 script(src="/public/scripts/optionsPostFormMap.js" defer)

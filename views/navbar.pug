@@ -1,11 +1,11 @@
 mixin navbar(currentUser) 
     nav.navbar(role='navigation' aria-label='main navigation')
         .navbar-brand.is-justify-content-space-between
-            a(href='/')
+            a(href='/').should-load
                 img(src='/public/review-it.png' style='background:none;width: 70px; height: 70px; padding: 5px;')
             .is-flex.is-align-items-center
                 if currentUser
-                    a(href="/users/profile").button.rainbow-box.is-hidden-desktop#userboxmobile Welcome, #{currentUser.username}
+                    a(href="/users/profile").should-load.button.rainbow-box.is-hidden-desktop#userboxmobile Welcome, #{currentUser.username}
                 a.navbar-burger(role='button' aria-label='menu' aria-expanded='false' data-target='headerNavbar')
                     span(aria-hidden='true')
                     span(aria-hidden='true')
@@ -17,9 +17,9 @@ mixin navbar(currentUser)
                         if currentUser
                             a.button.is-primary.js-modal-trigger(data-target='modal-js-new-post')
                                 strong New Post
-                            a(href="/users/profile").button.rainbow-box.is-hidden-touch#userboxdesktop Welcome, #{currentUser.username} 
+                            a(href="/users/profile").should-load.button.rainbow-box.is-hidden-touch#userboxdesktop Welcome, #{currentUser.username} 
                             form(action="/users/logout" method="post") 
-                                button.button.is-danger(type="submit")
+                                button.button.is-danger(type="submit").should-load
                                     strong Logout
                         else
                             include ./comps/googleButton

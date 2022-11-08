@@ -1,3 +1,17 @@
+function showLoader(e = {}) {
+    if (
+        Object.keys(e).length > 0 &&
+        e.target.form &&
+        !e.target.form.checkValidity()
+    ) {
+        return false;
+    }
+    document.getElementById('loading').style.display = 'flex';
+}
+function removeLoader() {
+    document.getElementById('loading').style.display = 'none';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Functions to open and close a modal
     function openModal($el) {
@@ -13,6 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal($modal);
         });
     }
+
+    (document.querySelectorAll('.should-load') || []).forEach((elem) => {
+        elem.addEventListener('click', showLoader);
+    });
 
     // Add a click event on buttons to open a specific modal
     (document.querySelectorAll('.js-modal-trigger') || []).forEach(

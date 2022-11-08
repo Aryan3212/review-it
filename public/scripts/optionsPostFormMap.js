@@ -20,8 +20,10 @@ const optionMarker = new maplibregl.Marker({
     .addTo(optionsPostMap);
 
 function onDragEnd() {
+    showLoader();
     const lngLat = optionMarker.getLngLat();
     setLongLatOnForm(lngLat.lng, lngLat.lat, optionsForm);
+    removeLoader();
 }
 
 optionMarker.on('dragend', onDragEnd);

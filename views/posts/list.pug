@@ -13,13 +13,13 @@ block content
             .column.is-one-third
                 div(class="card")
                     if currentUser
-                        a(href='/posts/'+ post.id)
+                        a.should-load(href='/posts/'+ post.id)
                             div(class="card-image") 
                                 figure(class="image is-4by3")
                                     img(crossorigin style="object-fit: cover" src=`${post.images && post.images[0] ? post.images[0].url: '/public/no-image.png'}`, alt=post.title+"image")
                         .card-content
                             .media
-                                a(href='/posts/'+post.id).media-content
+                                a.should-load(href='/posts/'+post.id).media-content
                                     p.title.is-4.is-6-mobile=post.title
                                     p.subtitle.is-6.is-7-mobile="By "
                                         span.rainbow-box.has-text-weight-semibold=post.author.username

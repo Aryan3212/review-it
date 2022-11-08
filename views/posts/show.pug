@@ -6,7 +6,7 @@ block scripts
     link(rel="stylesheet" href="/public/styles/rangeInput.css")
 
 block content
-    a.my-3.button.is-link(href='/posts') All posts
+    a.should-load.my-3.button.is-link(href='/posts') Go back
     .post
         #map(style='width: 100%; height: 300px;')
         .card
@@ -46,7 +46,7 @@ block content
                 .tooltip  
                     span.tooltiptext='Drag to score this out of 1-5' 
                     input.custom-range(type="range" min=1, max=5, name="rating",value=post.rating)
-                button(class="button is-primary" type="submit") Submit Review
+                button.should-load(class="button is-primary" type="submit") Submit Review
         each review in reviews
             .review.card
                 .card-content
@@ -57,12 +57,12 @@ block content
                 if currentUser && review.author.id === currentUser.id
                     .buttons
                         form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=DELETE" method="POST")
-                            button.button.is-danger.my-3.is-responsive(type="submit") Delete Review
+                            button.button.is-danger.my-3.is-responsive.should-load(type="submit") Delete Review
                         button.button.is-warning.my-3.is-responsive(type="submit" onclick="openAdjacentForm(this)") Edit
                         button.button.is-warning.my-3.is-responsive(type="submit" onclick="closeAdjacentForm(this)" style="display: none;") Cancel
                     form.px-3(class="hide" action="/posts/"+post.id+"/reviews/"+review.id+"?_method=PATCH" method="POST" style="display: none;")
                         textarea.textarea.is-primary.my-3(placeholder='Write a review' name="details")=review.details
                         input.custom-range.my-3(type="range" min=1 max=5 name="rating" value=review.rating)     
-                        button.button.is-warning.my-3.is-responsive(type="submit") Edit
+                        button.button.is-warning.my-3.is-responsive.should-load(type="submit") Edit
     script(src="/public/scripts/showPageGlider.js" defer)
     include postOptionsForm
