@@ -132,6 +132,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 flashMessageBox.style.display = 'none';
             });
     })();
+    (function () {
+        const MAX_SIZE = 9.7e6;
+        (document.querySelectorAll('input[type="file"]') || []).forEach(
+            (elem) => {
+                elem.addEventListener('change', (e) => {
+                    const files = e.target.files;
+                    if (files.length > 5) {
+                        e.target.value = '';
+                        alert('You can only upload 5 images.');
+                        return;
+                    }
+                    for (let i = 0; i < files.length; ++i) {
+                        if (files[i].size > MAX_SIZE) {
+                            e.target.value = '';
+                            alert(
+                                'File size is too large. Files should be less than 10MB'
+                            );
+                            break;
+                        }
+                    }
+                });
+            }
+        );
+    })();
 });
 
 function del(e) {
@@ -159,7 +183,7 @@ function get(e) {
 function setLongLatOnForm(lng, lat, form) {
     form.longitude.value = lng;
     form.latitude.value = lat;
-    fetch(
+    return fetch(
         `https://api.maptiler.com/geocoding/${lng},${lat}.json?key=${mapTilerApiKey}`
     )
         .then((raw) => {
