@@ -8,13 +8,14 @@ import path from 'path';
 import methodOverride from 'method-override';
 import { db } from './db';
 import routes from './routes';
-import session from 'express-session';
+import session, {SessionOptions, MemoryStore} from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
 import flash from 'connect-flash';
 import helmet from 'helmet';
 import { Server } from "http";
+import { ConnectMongoOptions } from "connect-mongo/build/main/lib/MongoStore";
 
 const app:Application = express();
 app.use(helmet());
@@ -71,17 +72,15 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 app.use(methodOverride('_method'));
-const sessionStoreOpts = {
+const sessionStoreOpts: ConnectMongoOptions = {
     mongoUrl: process.env.DB_URL || 'mongodb://127.0.0.1:27017/review-it',
-    secret: process.env.SESSION_SECRET,
     touchAfter: 24 * 3600
 };
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000 * 24);
-const sessionOpts = {
+const sessionOpts: SessionOptions = {
     name: process.env.SESSION_NAME,
-    store: MongoStore.create(sessionStoreOpts),
-    path: '/',
-    httpOnly: true,
+    // types error with MongoStore
+    store: MongoStore.create(sessionStoreOpts) || new MemoryStore(),
     cookie: {
         httpOnly: true,
         expires: expiryDate
@@ -89,7 +88,6 @@ const sessionOpts = {
     secret: process.env.SESSION_SECRET || 'development',
     resave: false,
     saveUninitialized: true,
-    maxAge: 100 * 60 * 60
 };
 if (process.env.NODE_ENV === 'production') {
     console.log('Secured!');
@@ -97,6 +95,10 @@ if (process.env.NODE_ENV === 'production') {
     sessionOpts.cookie = {
         httpOnly: true,
         expires: expiryDate,
+        secure: true,
+        sameSite: 'none',
+        signed: true,
+        
     };
 }
 app.use(session(sessionOpts));
