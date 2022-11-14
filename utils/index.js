@@ -6,7 +6,7 @@ const catchAsync = (fn) => {
     };
 };
 
-const imageFilter = (req, file, cb) => {
+const imageFilter = (file, cb) => {
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp|gif)$/i)) {
         return cb(new Error('Only image files are allowed!'), false);
@@ -43,11 +43,19 @@ const populateFields = (fieldsArray) => {
         return { path: field };
     });
 };
+
+class CustomError extends Error{
+    constructor(statusCode, message){
+        super(message);
+        this.statusCode = statusCode;
+    }
+}
 module.exports = {
     sanitizeEmail,
     sanitizeUserInput,
     objectMap,
     processUploadedImageFiles,
     imageFilter,
-    catchAsync
+    catchAsync,
+    CustomError
 };
