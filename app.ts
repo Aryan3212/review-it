@@ -1,19 +1,22 @@
+import express, { Application, NextFunction, Request, Response } from "express";
+
 require('dotenv').config();
 
-const https = require('https');
-const fs = require('fs');
-const express = require('express');
-const path = require('path');
-const methodOverride = require('method-override');
-const { db } = require('./db');
-const routes = require('./routes');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const passport = require('passport');
-const ExpressMongoSanitize = require('express-mongo-sanitize');
-const flash = require('connect-flash');
-const helmet = require('helmet');
-const app = express();
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import methodOverride from 'method-override';
+import { db } from './db';
+import routes from './routes';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import passport from 'passport';
+import ExpressMongoSanitize from 'express-mongo-sanitize';
+import flash from 'connect-flash';
+import helmet from 'helmet';
+import { Server } from "http";
+
+const app:Application = express();
 app.use(helmet());
 
 const scriptSrcUrls = [
@@ -75,7 +78,7 @@ const sessionStoreOpts = {
 };
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000 * 24);
 const sessionOpts = {
-    name: process.env.session_name,
+    name: process.env.SESSION_NAME,
     store: MongoStore.create(sessionStoreOpts),
     path: '/',
     httpOnly: true,
@@ -83,7 +86,7 @@ const sessionOpts = {
         httpOnly: true,
         expires: expiryDate
     },
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'development',
     resave: false,
     saveUninitialized: true,
     maxAge: 100 * 60 * 60
@@ -92,10 +95,8 @@ if (process.env.NODE_ENV === 'production') {
     console.log('Secured!');
     app.set('trust proxy', 1); // trust first proxy
     sessionOpts.cookie = {
-        secure: true,
         httpOnly: true,
         expires: expiryDate,
-        sameSite: 'none'
     };
 }
 app.use(session(sessionOpts));
@@ -108,12 +109,12 @@ db.init();
 app.use(routes);
 
 //* Error Routes
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request , res: Response, next: NextFunction) => {
     console.log(err);
     res.render('error', { err, currentUser: req.user });
     next();
 });
-let server;
+let server:https.Server | Server;
 if (process.env.HTTPS !== 'unset') {
     server = https
         .createServer(
@@ -133,7 +134,7 @@ process.on('SIGTERM', () => {
     console.info('SIGTERM signal received.');
     console.log('Closing http server.');
     db.close();
-    server.close((err) => {
+    server.close((err?: Error) => {
         console.log('Http server closed.');
         process.exit(err ? 1 : 0);
     });
