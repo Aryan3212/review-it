@@ -6,7 +6,8 @@
     "scripts": {
         "start": "cross-env NODE_ENV=development npm run build && node build/index.js",
         "dev": "cross-env NODE_ENV=development nodemon",
-        "build": "rimraf ./build && tsc",
+        "build:linux": "rm -rf ./build && tsc",
+        "build:windows": "rimraf ./build && tsc",
         "seed": "node seeds/index.js",
         "lint": "eslint . --ext .js --fix",
         "debug": "cross-env NODE_ENV=development nodemon --inspect app.js ",
