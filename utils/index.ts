@@ -1,12 +1,13 @@
-const { escape, normalizeEmail, stripLow, trim } = require('validator');
+import { NextFunction, Request, Response } from 'express';
+import validator  from 'validator';
 
-const catchAsync = (fn) => {
-    return (req, res, next) => {
+const catchAsync = (fn: Function) => {
+    return (req:Request, res:Response, next:NextFunction) => {
         fn(req, res, next).catch(next);
     };
 };
 
-const imageFilter = (file, cb) => {
+const imageFilter = (file: Express.Multer.File , cb: Function) => {
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp|gif)$/i)) {
         return cb(new Error('Only image files are allowed!'), false);
@@ -14,7 +15,7 @@ const imageFilter = (file, cb) => {
     return cb(null, true);
 };
 
-const processUploadedImageFiles = (files) => {
+const processUploadedImageFiles = (files: Array<Express.Multer.File>) => {
     return files.map((file) => {
         return {
             url: file.path,
@@ -22,30 +23,31 @@ const processUploadedImageFiles = (files) => {
         };
     });
 };
-const sanitizeEmail = (email) => {
-    return normalizeEmail(sanitizeUserInput(email), {
+const sanitizeEmail = (email: string) => {
+    return validator.normalizeEmail(sanitizeUserInput(email), {
         gmail_remove_dots: false
     });
 };
-const sanitizeUserInput = (input) => {
-    const trimmed = trim(input);
-    const stripped = stripLow(trimmed);
+const sanitizeUserInput = (input: string) => {
+    const trimmed = validator.trim(input);
+    const stripped = validator.stripLow(trimmed);
     return stripped;
 };
-const objectMap = (obj, fn) => {
+const objectMap = (obj: Object, fn: Function) => {
     return Object.fromEntries(
         Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)])
     );
 };
 
-const populateFields = (fieldsArray) => {
+const populateFields = (fieldsArray: Array<String>) => {
     return fieldsArray.map((field) => {
         return { path: field };
     });
 };
 
 class CustomError extends Error{
-    constructor(statusCode, message){
+    statusCode: Number;
+    constructor(statusCode: Number, message: string){
         super(message);
         this.statusCode = statusCode;
     }
