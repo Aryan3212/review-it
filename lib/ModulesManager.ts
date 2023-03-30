@@ -1,3 +1,4 @@
+/* 🚧 Work in Progress 🚧 */
 const EventEmitter = require("events");
 
 type ModuleObject = {
