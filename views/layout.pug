@@ -15,7 +15,7 @@ head
     link(rel='manifest' href='/public/site.webmanifest')
     link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.core.min.css' integrity='sha512-YQlbvfX5C6Ym6fTUSZ9GZpyB3F92hmQAZTO5YjciedwAaGRI9ccNs4iw2QTCJiSPheUQZomZKHQtuwbHkA9lgw==' crossorigin='anonymous' referrerpolicy='no-referrer')
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.theme.min.css' integrity='sha512-wCwx+DYp8LDIaTem/rpXubV/C1WiNRsEVqoztV0NZm8tiTvsUeSlA/Uz02VTGSiqfzAHD4RnqVoevMcRZgYEcQ==' crossorigin='anonymous' referrerpolicy='no-referrer')  
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.theme.min.css' integrity='sha512-wCwx+DYp8LDIaTem/rpXubV/C1WiNRsEVqoztV0NZm8tiTvsUeSlA/Uz02VTGSiqfzAHD4RnqVoevMcRZgYEcQ==' crossorigin='anonymous' referrerpolicy='no-referrer')
     script(src='https://cdn.jsdelivr.net/npm/@glidejs/glide' defer)
     script(src='https://kit.fontawesome.com/b5edcae973.js' crossorigin='anonymous')
     script(src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js' crossorigin="anonymous" referrerpolicy='no-referrer')
@@ -54,7 +54,7 @@ body(class="container is-max-desktop px-3")
                                 button.should-load.button.is-success.
                                     Login
                         a.button.modal-alternate-action.is-primary.js-modal-trigger.mr-2.mb-2(data-target='modal-js-register')
-                            strong I Wanna Sign Up 
+                            strong I Wanna Sign Up
                         include ./comps/googleButton
             button.modal-close.is-large(aria-label='close')
 
@@ -92,3 +92,6 @@ body(class="container is-max-desktop px-3")
             button.modal-close.is-large(aria-label='close')
     else
         include createPostForm
+    footer(class="my-5")
+        p 🛠️ Built by Aryan Rahman find me at 
+            a(href="https://aryanrahman3212.netlify.app/" class="has-text-warning is-underlined has-text-weight-bold") https://aryanrahman3212.netlify.app
