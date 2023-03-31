@@ -4,9 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "npm run build && node build/app.js",
+        "start": "node build/app.js",
         "dev": "cross-env NODE_ENV=development nodemon",
-        "build:linux": "rm -rf ./build && tsc",
+        "build:linux": "rm -rf ./build && tsc && mkdir build/views && cp -r views/* build/views/ && rsync -av --progress public build/ --exclude scripts",
         "build:windows": "rimraf ./build && tsc",
         "seed": "node seeds/index.js",
         "lint": "eslint . --ext .js --fix",
