@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import 'multer';
 import validator  from 'validator';
 
 const catchAsync = (fn: Function) => {
